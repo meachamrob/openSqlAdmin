@@ -1,6 +1,6 @@
 <?php
-
     /*
+    Copyright 2011 Thierry BUGEAT
     This file is part of openSqlAdmin.
 
     openSqlAdmin is free software: you can redistribute it and/or modify
