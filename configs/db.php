@@ -20,10 +20,10 @@
     # Connection mySQL :
 
     $db = array(
-        'HOST'	=> '',
-        'DATABASE'	=> '',
-        'USER'	=> '',
-        'PASSWORD'	=> ''
+        'HOST'      => 'localhost',
+        'DATABASE'  => '',
+        'USER'      => 'root',
+        'PASSWORD'  => 'zw8kz5hlt9'
     );
 
 ?>

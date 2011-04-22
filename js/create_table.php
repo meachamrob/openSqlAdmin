@@ -21,12 +21,16 @@
 
     /*
      * create_table.php
-     * 
+     *
+     * @param $dirConfigs
      * @param $_sql_ ( Table definition )
      * 
      * @return String
      * 
      * */
+     
+        $dirConfigs = $_POST['dirConfigs'];
+        $_sql_      = $_POST['_sql_'];
 
     // Loading configuration file(s) :
 

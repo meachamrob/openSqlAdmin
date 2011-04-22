@@ -53,7 +53,7 @@
                             <ul id="sql_databasesNames"></ul>
                         </dd>
                     </dl>
-                    <!-- 
+                    <!--
                     <?=_SQL_NEW_DATABASE_NAME?><input type="text" maxsize="32" id="sql_databaseName_new" name="_sql_[database][name]" />
                     -->
                 </div>

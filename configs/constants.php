@@ -19,5 +19,6 @@
     
     // Directories :
 
-    define('_DIR_CONFIGS','/donnees/www/openSqlAdmin/configs/');
+    define('_DIR_CONFIGS', getcwd().'/configs/');
+
 ?>

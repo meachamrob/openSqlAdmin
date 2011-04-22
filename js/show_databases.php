@@ -27,16 +27,30 @@
      * @return JSON String
      * 
      * */
+     
+     $dirConfigs = $_POST['dirConfigs'];
 
     // Loading configuration file(s) :
 
-        require_once( $dirConfigs . '/db.php' );
+        if ( file_exists($dirConfigs . '/db.php') ) 
+        {
+            require_once( $dirConfigs . '/db.php' );
+        } 
+        
+        else 
+        {
+            echo '[{"Database":"ERROR loading configuration file \"configs/db.php\". Please check the constant \"_DIR_CONFIGS\" in the file \"configs/constants.php\""}]';
+            exit;
+        }
         
     // Connexion SQL :
-    
-        $dbh = mysql_connect($db['HOST'],$db['USER'],$db['PASSWORD']) or die (mysql_error());
 
-        if (!$dbh) exit;
+        $dbh = mysql_connect($db['HOST'],$db['USER'],$db['PASSWORD']);
+
+        if (!$dbh) {
+            echo '[{"Database":"ERROR MySQL connection. Please check your MySQL configuration in file \"configs/db.php\""}]';
+            exit;
+        }
 
     // ---
 

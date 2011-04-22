@@ -28,6 +28,9 @@
      * @return JSON String
      * 
      * */
+     
+     $dirConfigs    = $_POST['dirConfigs'];
+     $database_name = $_POST['database_name'];
 
     // Loading configuration file(s) :
 
