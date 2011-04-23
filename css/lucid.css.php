@@ -1,5 +1,6 @@
 <?php
     header("Content-type: text/css");
+    $PREFIX_URL_CSS = $_GET['PREFIX_URL_CSS'];
 ?>
 body {
     background:url("<?=$PREFIX_URL_CSS?>lucid/background.jpg") no-repeat top center fixed #4e1f41;

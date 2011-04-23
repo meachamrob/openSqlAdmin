@@ -1,5 +1,6 @@
 <?php
     header("Content-type: text/css");
+    $PREFIX_URL_CSS = $_GET['PREFIX_URL_CSS'];
 ?>
 body {
     margin: 0px;
