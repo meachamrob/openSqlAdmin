@@ -17,7 +17,7 @@
     along with openSqlAdmin.  If not, see <http://www.gnu.org/licenses/>.
     */
     
-    # Connection mySQL :
+    # Connection mySQL : 
 
     $db = array(
         'HOST'      => '',
