@@ -17,13 +17,14 @@
     along with openSqlAdmin.  If not, see <http://www.gnu.org/licenses/>.
     */
     
-    # Connection mySQL : 
+    # Connection mySQL :
+    # Adapt this informations to your SQL server.
 
     $db = array(
-        'HOST'      => '',
+        'HOST'      => 'localhost',
         'DATABASE'  => '',
-        'USER'      => '',
-        'PASSWORD'  => ''
+        'USER'      => 'root',
+        'PASSWORD'  => 'password'
     );
 
 ?>
