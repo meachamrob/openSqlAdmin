@@ -47,15 +47,17 @@
             <div class="sidebox">
                 <div class="boxhead"><h2><div class="show_titre"><?=_SQL_DATABASES_NAMES?></div><div id="sql_databaseName_loading"></div></h2></div>
                 <div class="boxbody">
+                    <p>
+                        <div class="row">
+                            <?=_SQL_CREATE_DATABASE?> <input type="text" maxsize="32" id="sql_databaseName_new" name="_sql_[database][name]" />
+                        </div>
+                    </p>
                     <dl class="dropdown">
                         <dt><a href="#"><span>Select database</span></a></dt>
                         <dd>
                             <ul id="sql_databasesNames"></ul>
                         </dd>
                     </dl>
-                    <!--
-                    <?=_SQL_NEW_DATABASE_NAME?><input type="text" maxsize="32" id="sql_databaseName_new" name="_sql_[database][name]" />
-                    -->
                 </div>
                 <div class="boxfooter"><h2></h2></div>
             </div>
@@ -70,6 +72,16 @@
 
         <script type="text/javascript">
 
+            var _box_tables = '';
+
+            _box_tables += '<div class="sidebox">';
+            _box_tables += '  <div class="boxhead"><h2><div class="show_titre"><div id="sql_databaseName"></div><div id="sql_tablesNames_loading"></div></h2></div>';
+            _box_tables += '  <div class="boxbody">';
+            _box_tables += '    <p><ul></ul></p>';
+            _box_tables += '  </div>';
+            _box_tables += '  <div class="boxfooter"><h2></h2></div>';
+            _box_tables += '</div>';
+                
             $(document).ready(function() {
                 dspDatabases();
             });
@@ -83,22 +95,46 @@
                 var _index  = $("#sql_databasesNames li").index(this);
                 var _value  = $(this).html();
 
-                var _html = '';
-
-                _html += '<div class="sidebox">';
-                _html += '  <div class="boxhead"><h2><div class="show_titre"><div id="sql_databaseName"></div><div id="sql_tablesNames_loading"></div></h2></div>';
-                _html += '  <div class="boxbody">';
-                _html += '    <ul></ul>';
-                _html += '  </div>';
-                _html += '  <div class="boxfooter"><h2></h2></div>';
-                _html += '</div>';
-
-                $('#sql_tablesNames').html(_html);
+                $('#sql_tablesNames').html(_box_tables);
                 
                 $('#sql_databaseName').html(_value);
                 dspTables(_value);
                 dspFormCreateTable(_value);
+            });
+            
+            /* ============================================================================= */
+            /* --- CREATE DATABASE : If the user change the database name in the "input" --- */
+            /* ============================================================================= */
 
+            $('#sql_databaseName_new').live("change", function()
+            {
+                var _value = $('#sql_databaseName_new').val();
+
+                // stop form from submitting normally
+
+                //event.preventDefault(); 
+                
+                if (confirm("Create database \""+_value+"\" ?"))
+                {
+
+                    $('#sql_tablesNames').html(_box_tables);
+                    
+                    $("#sql_databaseName").html(_value);
+                    
+                    $("#sql_databaseName_new").attr('value','');
+                
+                    $.ajax({
+                        type: "POST",
+                        url: "js/create_database.php",
+                        data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_value,
+                        success: function(msg,text){
+                            dspDatabases();
+                            dspTables(_value);
+                            dspFormCreateTable(_value);
+                            alert(msg);
+                        }
+                    });
+                }
             });
 
             /* ========================================== */
@@ -334,12 +370,13 @@
                 _html += '  <input type="hidden" name="_sql_[database][name]" id="_sql_[database][name]" value="'+_database_name+'" />';
 
                 _html += '  <div class="sidebox">';
-                _html += '  <div class="boxhead"><h2><div class="edit_titre"><input type="text" maxsize="32" id="sql_tableName_new" name="_sql_[table][name]" /></div><div id="sql_tableName_loading"></div></h2></div>';
+                _html += '  <div class="boxhead"><h2><div class="edit_titre"><?=_SQL_CREATE_OR_UPDATE_TABLE?></div><div id="sql_tableName_loading"></div></h2></div>';
                 _html += '      <div class="boxbody">';
+                _html += '          <?=_SQL_TABLE_NAME?> <input type="text" maxsize="32" id="sql_tableName_new" name="_sql_[table][name]" alt="<?=_SQL_CREATE_TABLE_INPUT?>" title="<?=_SQL_CREATE_TABLE_INPUT?>" />';
                 _html += '          <ul id="sql_tableColumns"></ul>';
                 _html += '          <p>';
                 _html += '              <span class="_a_ _button_" onclick="$(\'#sql_tableColumns\').append(_addColumn(\'\',\'\',\'\',\'\',\'\'));"><?=_SQL_ADD_COLUMN?></span>';
-                _html += '              <input type="submit" value="<?=_SQL_EXECUTE?>" />';
+                _html += '              <input type="submit" value="<?=_SQL_CREATE_TABLE_SUBMIT?>" />';
                 _html += '          </p>';
                 _html += '      </div>';
                 _html += '      <div class="boxfooter"><h2></h2></div>';

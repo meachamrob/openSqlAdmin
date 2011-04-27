@@ -4,6 +4,9 @@
 ._selected_{
     border-right:2px solid #000;
 }
+.row {
+    white-space:nowrap;
+}
 #col-left{
     float:left;
     width:25%;

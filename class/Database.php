@@ -37,6 +37,7 @@ class Database {
             return mysql_errno($dbh) . ': ' . mysql_error($dbh). "\n";
         } else {
             $this->dbh = $dbh;
+            return $dbh;
         }
 
     }
@@ -49,6 +50,19 @@ class Database {
             return mysql_errno($this->dbh) . ': ' . mysql_error($this->dbh). "\n";
         } else {
             $this->database_name = $database_name;
+        }
+    }
+    
+    function create_database($database_name)
+    {
+        if ( trim($database_name) == '' ) return "ERROR : Missing database name.";
+        
+        $query = 'CREATE DATABASE IF NOT EXISTS `'.$database_name.'`';
+        
+        if (mysql_query($query,$this->dbh)) {
+            return ("Database \"".$database_name."\" created successfully.");
+        } else {
+            return ("Error in creating database \"".$database_name."\" \"".$query."\" . ". mysql_error ());
         }
     }
 

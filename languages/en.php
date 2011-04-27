@@ -28,4 +28,9 @@
     define('_SQL_UNSIGNED','Unsigned');
     define('_SQL_EXECUTE', 'Execute');
     define('_SQL_DATABASES_NAMES', 'Databases');
+    define('_SQL_DATABASE', 'Database');
+    define('_SQL_CREATE_DATABASE', 'Create database');
+    define('_SQL_CREATE_OR_UPDATE_TABLE', 'Create or update table');
+    define('_SQL_CREATE_TABLE_INPUT', 'Change this value to start a new table then clic [add column].');
+    define('_SQL_CREATE_TABLE_SUBMIT', 'Create/Update table now');
 ?>
