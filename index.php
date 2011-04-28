@@ -216,12 +216,12 @@
 
                 else if (_value.match(/(FLOAT|DOUBLE|DECIMAL|BLOB|TEXT|DATE|TIME|YEAR)/)) 
                 {
-                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _hiddenLength(_value) + _hiddenEnum() + _unsigned(0,0) + _autoIncrement(0,0) );
+                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _hiddenLength(_value) + _hiddenEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
                 }
                 
                 else if (_value.match(/(CHAR)/)) 
                 {
-                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectLength(255) + _hiddenEnum() + _unsigned(0,0) + _autoIncrement(0,0) );
+                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectLength(255) + _hiddenEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
                 }
                 
                 else if (_value.match(/(ENUM)/)) 
@@ -517,17 +517,17 @@
                     
                     if (_type.match(/(INT)/)) 
                     {
-                        _params = _hiddenLength(_type) + _hiddenEnum() + _unsigned(unsigned,1) + _autoIncrement(_auto_increment,1);
+                        _params = _hiddenLength(_type) + _hiddenEnum(_enumerations) + _unsigned(unsigned,1) + _autoIncrement(_auto_increment,1);
                     }
 
                     else if (_type.match(/(FLOAT|DOUBLE|DECIMAL|BLOB|TEXT|DATE|TIME|YEAR)/)) 
                     {
-                        _params = _hiddenLength(_type) + _hiddenEnum() + _unsigned(0,0) + _autoIncrement(0,0);
+                        _params = _hiddenLength(_type) + _hiddenEnum(_enumerations) + _unsigned(0,0) + _autoIncrement(0,0);
                     }
                     
                     else if (_type.match(/(CHAR)/)) 
                     {
-                        _params = _selectLength(_length) + _hiddenEnum() + _unsigned(0,0) + _autoIncrement(0,0);
+                        _params = _selectLength(_length) + _hiddenEnum(_enumerations) + _unsigned(0,0) + _autoIncrement(0,0);
                     }
                     
                     else if (_type.match(/(ENUM)/)) 
@@ -565,23 +565,29 @@
                     _out += "<option value=\"" + _value + "\" " + _selected + " >" + _value + "</option>";
                 }
                 
-                return _out + "</select><input type=\"hidden\" name=\"_sql_[table][column][enum_new][]\" value=\"\" />";
-            }
-            
-            function _hiddenEnum(){
-                var _out = "";
-                
-                _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum][]\" value=\"\" />";
+                _out += "</select>";
                 _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum_new][]\" value=\"\" />";
+                _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum_old][]\" value=\""+_enumerations+"\" />";
                 
                 return _out;
             }
             
-            function _inputNewEnum(){
+            function _hiddenEnum(_enumerations){
+                var _out = "";
+                
+                _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum][]\" value=\"\" />";
+                _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum_new][]\" value=\"\" />";
+                _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum_old][]\" value=\""+_enumerations+"\" />";
+                
+                return _out;
+            }
+            
+            function _inputNewEnum(_enumerations){
                 var _out = "";
                 
                 _out += "<input type = \"hidden\" name = \"_sql_[table][column][enum][]\" value = \"\" />";
                 _out += "<?=_SQL_ENUMERATIONS?> <input type = \"text\" name = \"_sql_[table][column][enum_new][]\" value = \"\" />";
+                _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum_old][]\" value=\""+_enumerations+"\" />";
                 
                 return _out;
             }

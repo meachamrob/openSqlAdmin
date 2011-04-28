@@ -58,6 +58,7 @@
                 $_columns_auto_increment    = $_sql_['table']['column']['auto_increment'];
                 $_columns_enums             = $_sql_['table']['column']['enum'];
                 $_columns_enums_new         = $_sql_['table']['column']['enum_new'];
+                $_columns_enums_old         = $_sql_['table']['column']['enum_old'];
 
                 if ( trim($_columns_names[$i]) == '' ) { $_column_name = 'column'.$i.''; }
                 else { $_column_name = trim($_columns_names[$i]); }
@@ -67,9 +68,12 @@
                 if ( $_columns_lengths[$i] > 0 ) {
                     $query .= '`' . $_column_name . '` ' . $_columns_types[$i] . '(' . $_columns_lengths[$i] . ') ';
                     $table_definition_params = $_columns_types[$i] . '(' . $_columns_lengths[$i] . ') ';
-                } else if ( $_columns_enums_new[$i] ) {
+                } else if ( $_columns_enums_new[$i] <> "" ) {
                     $query .= '`' . $_column_name . '` ' . $_columns_types[$i] . '(' . _reformatEnumerations($_columns_enums_new[$i]) . ') ';
                     $table_definition_params = $_columns_types[$i] . '(' . _reformatEnumerations($_columns_enums_new[$i]) . ') ';
+                } else if ( $_columns_enums[$i] <> "" ) {
+                    $query .= '`' . $_column_name . '` ' . $_columns_types[$i] . '(' . _reformatEnumerations($_columns_enums_old[$i]) . ') ';
+                    $table_definition_params = $_columns_types[$i] . '(' . _reformatEnumerations($_columns_enums_old[$i]) . ') ';
                 } else {
                     $query .= '`' . $_column_name . '` ' . $_columns_types[$i] . ' ';
                     $table_definition_params = $_columns_types[$i] . ' ';
@@ -103,7 +107,7 @@
             $database->select_db($_sql_['database']['name']);
             $database->create_tables($tables_definitions);
 
-            //print_r($tables_definitions);
+            print_r($tables_definitions);
             //echo $query;
             echo "Create/update table ended";
         }
@@ -120,6 +124,7 @@
             
             foreach( $_enums as $_enum )
             {
+                $_enum = preg_replace('/\'/','',$_enum);
                 if ( $i > 0 ) $_out .= ",";
                 $_out .= "'".$_enum."'";
                 $i ++;
