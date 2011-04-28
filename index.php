@@ -216,12 +216,17 @@
 
                 else if (_value.match(/(FLOAT|DOUBLE|DECIMAL|BLOB|TEXT|DATE|TIME|YEAR)/)) 
                 {
-                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _hiddenLength(_value) + _unsigned(0,0) + _autoIncrement(0,0) );
+                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _hiddenLength(_value) + _hiddenEnum() + _unsigned(0,0) + _autoIncrement(0,0) );
                 }
                 
                 else if (_value.match(/(CHAR)/)) 
                 {
-                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectLength(255) + _unsigned(0,0) + _autoIncrement(0,0) );
+                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectLength(255) + _hiddenEnum() + _unsigned(0,0) + _autoIncrement(0,0) );
+                }
+                
+                else if (_value.match(/(ENUM)/)) 
+                {
+                    $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _hiddenLength(_value) + _inputNewEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
                 }
 
                 else
@@ -375,7 +380,7 @@
                 _html += '          <?=_SQL_TABLE_NAME?> <input type="text" maxsize="32" id="sql_tableName_new" name="_sql_[table][name]" alt="<?=_SQL_CREATE_TABLE_INPUT?>" title="<?=_SQL_CREATE_TABLE_INPUT?>" />';
                 _html += '          <ul id="sql_tableColumns"></ul>';
                 _html += '          <p>';
-                _html += '              <span class="_a_ _button_" onclick="$(\'#sql_tableColumns\').append(_addColumn(\'\',\'\',\'\',\'\',\'\'));"><?=_SQL_ADD_COLUMN?></span>';
+                _html += '              <span class="_a_ _button_" onclick="$(\'#sql_tableColumns\').append(_addColumn(\'\',\'\',\'\',\'\',\'\',\'\',\'\'));"><?=_SQL_ADD_COLUMN?></span>';
                 _html += '              <input type="submit" value="<?=_SQL_CREATE_TABLE_SUBMIT?>" />';
                 _html += '          </p>';
                 _html += '      </div>';
@@ -403,6 +408,10 @@
                         var _end   = columns[i].Type.indexOf(")");
 
                         var _length = columns[i].Type.substring(_start,_end);
+                    
+                    // Enum :
+                    
+                        var _enumerations = _length;
 
                     // Autoincrement :
 
@@ -424,7 +433,7 @@
                     
                     // Ajout de la colonne :
                     
-                        _newColumns += _addColumn( columns[i].Field , columns[i].Type , _length , _auto_increment , _unsigned );
+                        _newColumns += _addColumn( columns[i].Field , columns[i].Type , columns[i].Default ,_length , _enumerations, _auto_increment , _unsigned );
 
                     // ---
                 }
@@ -436,7 +445,7 @@
             /* --- Html code for 1 column --- */
             /* ============================== */
 
-            function _addColumn(name,type,_length,_auto_increment,unsigned)
+            function _addColumn(name,type,_default,_length,_enumerations,_auto_increment,unsigned)
             {
                 /* --- Select Type --- */
                 
@@ -463,7 +472,8 @@
                             "TINYBLOB"  : "1 to 255",
                             "BLOB"      : "1 to 65536",
                             "MEDIUMBLOB": "1 to 16 777 216",
-                            "LONGBLOB"  : "1 to 2^32"
+                            "LONGBLOB"  : "1 to 2^32",
+                            "ENUM"      : "---"
                         },
                         "DATE AND TIME": {
                             ""          : "",
@@ -507,17 +517,22 @@
                     
                     if (_type.match(/(INT)/)) 
                     {
-                        _params = _hiddenLength(_type) + _unsigned(unsigned,1) + _autoIncrement(_auto_increment,1);
+                        _params = _hiddenLength(_type) + _hiddenEnum() + _unsigned(unsigned,1) + _autoIncrement(_auto_increment,1);
                     }
 
                     else if (_type.match(/(FLOAT|DOUBLE|DECIMAL|BLOB|TEXT|DATE|TIME|YEAR)/)) 
                     {
-                        _params = _hiddenLength(_type) + _unsigned(0,0) + _autoIncrement(0,0);
+                        _params = _hiddenLength(_type) + _hiddenEnum() + _unsigned(0,0) + _autoIncrement(0,0);
                     }
                     
                     else if (_type.match(/(CHAR)/)) 
                     {
-                        _params = _selectLength(_length) + _unsigned(0,0) + _autoIncrement(0,0);
+                        _params = _selectLength(_length) + _hiddenEnum() + _unsigned(0,0) + _autoIncrement(0,0);
+                    }
+                    
+                    else if (_type.match(/(ENUM)/)) 
+                    {
+                        _params = _hiddenLength(_type) + _selectEnum(_enumerations,_default) + _unsigned(0,0) + _autoIncrement(0,0);
                     }
 
                 /* --- ---*/
@@ -531,6 +546,44 @@
                 newColumn += "</li>";
 
                 return newColumn;
+            }
+            
+            function _selectEnum(_enumerations,_default){
+                var _out = "<select name=\"_sql_[table][column][enum][]\" value=\"\" >";
+                var _regex = new RegExp("[,]+", "g");
+                var _enums = _enumerations.split(_regex);
+                
+                for ( var i = 0 ; i < _enums.length ; i++ )
+                {
+                    var _end   = _enums[i].length - 1;
+                    var _value = _enums[i].substring(1,_end);
+                    
+                    var _selected = "";
+                    
+                    if ( _value == _default ) { _selected = " selected=\"selected\" "; }
+                    
+                    _out += "<option value=\"" + _value + "\" " + _selected + " >" + _value + "</option>";
+                }
+                
+                return _out + "</select><input type=\"hidden\" name=\"_sql_[table][column][enum_new][]\" value=\"\" />";
+            }
+            
+            function _hiddenEnum(){
+                var _out = "";
+                
+                _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum][]\" value=\"\" />";
+                _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum_new][]\" value=\"\" />";
+                
+                return _out;
+            }
+            
+            function _inputNewEnum(){
+                var _out = "";
+                
+                _out += "<input type = \"hidden\" name = \"_sql_[table][column][enum][]\" value = \"\" />";
+                _out += "<?=_SQL_ENUMERATIONS?> <input type = \"text\" name = \"_sql_[table][column][enum_new][]\" value = \"\" />";
+                
+                return _out;
             }
 
             function _hiddenLength(_type){
@@ -547,8 +600,9 @@
                 else if (_type.match(/(TINYTEXT|TINYBLOB)/))    { _length = 255;        }
                 else if (_type.match(/(TEXT|BLOB)/))            { _length = 65535;      }
                 else if (_type.match(/(DATE|TIME|YEAR)/))       { _length = 0;          }
+                else if (_type.match(/(ENUM)/))                 { _length = 0;          }
                 
-                return "Length(" + _length + ") <input type=\"hidden\" name = \"_sql_[table][column][length][]\" value = \"" + _length + "\" />";
+                return "<input type=\"hidden\" name = \"_sql_[table][column][length][]\" value = \"" + _length + "\" />";
             }
         
             function _selectLength(_length){

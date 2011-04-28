@@ -56,6 +56,8 @@
                 $_columns_lengths           = $_sql_['table']['column']['length'];
                 $_columns_unsigned          = $_sql_['table']['column']['unsigned'];
                 $_columns_auto_increment    = $_sql_['table']['column']['auto_increment'];
+                $_columns_enums             = $_sql_['table']['column']['enum'];
+                $_columns_enums_new         = $_sql_['table']['column']['enum_new'];
 
                 if ( trim($_columns_names[$i]) == '' ) { $_column_name = 'column'.$i.''; }
                 else { $_column_name = trim($_columns_names[$i]); }
@@ -65,6 +67,9 @@
                 if ( $_columns_lengths[$i] > 0 ) {
                     $query .= '`' . $_column_name . '` ' . $_columns_types[$i] . '(' . $_columns_lengths[$i] . ') ';
                     $table_definition_params = $_columns_types[$i] . '(' . $_columns_lengths[$i] . ') ';
+                } else if ( $_columns_enums_new[$i] ) {
+                    $query .= '`' . $_column_name . '` ' . $_columns_types[$i] . '(' . _reformatEnumerations($_columns_enums_new[$i]) . ') ';
+                    $table_definition_params = $_columns_types[$i] . '(' . _reformatEnumerations($_columns_enums_new[$i]) . ') ';
                 } else {
                     $query .= '`' . $_column_name . '` ' . $_columns_types[$i] . ' ';
                     $table_definition_params = $_columns_types[$i] . ' ';
@@ -107,4 +112,20 @@
         {
             echo 'ERROR : Missing table name';
         }
+        
+        function _reformatEnumerations($_enumerations){
+            $_enums = preg_split("/[\s,]+/", $_enumerations);
+            
+            $_out = "";
+            
+            foreach( $_enums as $_enum )
+            {
+                if ( $i > 0 ) $_out .= ",";
+                $_out .= "'".$_enum."'";
+                $i ++;
+            }
+            
+            return $_out;
+        }
+        
 ?>
