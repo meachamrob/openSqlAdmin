@@ -477,18 +477,16 @@
                 
                     var _selectDefinition = { 
                         NUMERIC: {
-                            ""          :   "",
                             "TINYINT"   : "-127 to 128 or 0 to 255",
                             "SMALLINT"  : "-32768 to 32767 or 0 to 65536",
                             "MEDIUMINT" : "-2^23 to 2^23 or 0 to 2^24",
-                            "INT"       : "-2^31 to 2^31 or 0 to 2^32",
                             "BIGINT"    : "-2^63 to 2^63 or 0 to 2^64",
+                            "INT"       : "-2^31 to 2^31 or 0 to 2^32",
                             "FLOAT"     : "Point décimal de précision simple",
                             "DOUBLE"    : "Point décimal de précision double",
                             "DECIMAL"   : "Point décimal, représenté sous forme de chaine"
                         },
                         STRING: {
-                            ""          : "",
                             "VARCHAR"   : "1 to 255",
                             "CHAR"      : "1 to 255",
                             "TINYTEXT"  : "1 to 255",
@@ -496,13 +494,12 @@
                             "MEDIUMTEXT": "1 to 16 777 216",
                             "LONGTEXT"  : "1 to 2^32",
                             "TINYBLOB"  : "1 to 255",
-                            "BLOB"      : "1 to 65536",
                             "MEDIUMBLOB": "1 to 16 777 216",
                             "LONGBLOB"  : "1 to 2^32",
+                            "BLOB"      : "1 to 65536",
                             "ENUM"      : "---"
                         },
                         "DATE AND TIME": {
-                            ""          : "",
                             "DATE"      : "YYYY-MM-DD",
                             "TIME"      : "hh:mm:ss",
                             "DATETIME"  : "YYYY-MM-DD hh:mm:ss",
@@ -519,12 +516,18 @@
 
                     for ( var _optGroup in _select )
                     {
-                        selectType += "<optgroup label=\"" + _optGroup + "\"";
+                        selectType += "<optgroup label=\"" + _optGroup + "\">";
                         
                         for ( var _typeValue in _select[_optGroup] )
                         {
-                            var _tmp  = type.substring(0,type.indexOf("("));
-                            var _type = _tmp.toUpperCase();
+                            var _indexOf = type.indexOf("(");
+                            
+                            if ( _indexOf > 0 ) {
+                                var _tmp  = type.substring(0,_indexOf);
+                                var _type = _tmp.toUpperCase();
+                            } else {
+                                 var _type = type.toUpperCase();
+                            }
 
                             var _selected = "";
                             if ( _type == _typeValue ) { _selected = "selected = \"selected\""; }
@@ -563,7 +566,7 @@
 
                 /* --- ---*/
             
-                newColumn  = "<li class=\"_li_\" style=\"white-space:nowrap\">";
+                newColumn  = "<li class=\"_li_\">";
                 newColumn += "<span class=\"_a_ _delete_\"><?=_SQL_DELETE_COLUMN?> </span>";
                 newColumn += "<span class=\"_a_ _drag_\"> [drag] </span>";
                 newColumn += "<?=_SQL_COLUMN_NAME?> <input type=\"text\" size=\"8\" maxsize=\"32\" name=\"_sql_[table][column][name][]\" value=\""+name+"\" />";
@@ -622,17 +625,17 @@
 
                 _length = 8;
                 
-                     if (_type.match(/(BIGINT)/))               { _length = 8;          }
-                else if (_type.match(/(MEDIUMINT)/))            { _length = 3;          }
-                else if (_type.match(/(SMALLINT)/))             { _length = 2;          }
-                else if (_type.match(/(TINYINT)/))              { _length = 1;          }
-                else if (_type.match(/(INT)/))                  { _length = 4;          }
-                else if (_type.match(/(LONGTEXT|LONGBLOB)/))    { _length = 4294967295; }
-                else if (_type.match(/(MEDIUMTEXT|MEDIUMBLOB)/)){ _length = 16777215;   }
-                else if (_type.match(/(TINYTEXT|TINYBLOB)/))    { _length = 255;        }
-                else if (_type.match(/(TEXT|BLOB)/))            { _length = 65535;      }
-                else if (_type.match(/(DATE|TIME|YEAR)/))       { _length = 0;          }
-                else if (_type.match(/(ENUM)/))                 { _length = 0;          }
+                     if (_type.match(/(BIGINT)/))               { _length = 8; }
+                else if (_type.match(/(MEDIUMINT)/))            { _length = 3; }
+                else if (_type.match(/(SMALLINT)/))             { _length = 2; }
+                else if (_type.match(/(TINYINT)/))              { _length = 1; }
+                else if (_type.match(/(INT)/))                  { _length = 4; }
+                else if (_type.match(/(LONGTEXT|LONGBLOB)/))    { _length = 0; }
+                else if (_type.match(/(MEDIUMTEXT|MEDIUMBLOB)/)){ _length = 0; }
+                else if (_type.match(/(TINYTEXT|TINYBLOB)/))    { _length = 0; }
+                else if (_type.match(/(TEXT|BLOB)/))            { _length = 0; }
+                else if (_type.match(/(DATE|TIME|YEAR)/))       { _length = 0; }
+                else if (_type.match(/(ENUM)/))                 { _length = 0; }
                 
                 return "<input type=\"hidden\" name = \"_sql_[table][column][length][]\" value = \"" + _length + "\" />";
             }

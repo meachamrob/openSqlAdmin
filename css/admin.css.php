@@ -7,6 +7,9 @@
 .row {
     white-space:nowrap;
 }
+li{
+    white-space:nowrap;
+}
 #col-left{
     float:left;
     width:25%;
