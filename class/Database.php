@@ -106,6 +106,14 @@ class Database {
 
         // ---
     }
+    
+    public function drop_table($table_name)
+    {
+        $query = 'DROP TABLE IF EXISTS `'.$this->database_name.'`.`'.$table_name.'`';
+        $results = mysql_query($query,$this->dbh);
+        
+        return $results;
+    }
 
     public function ARO($query)
     {

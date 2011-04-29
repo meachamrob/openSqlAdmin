@@ -107,7 +107,7 @@
             $database->select_db($_sql_['database']['name']);
             $database->create_tables($tables_definitions);
 
-            print_r($tables_definitions);
+            //print_r($tables_definitions);
             //echo $query;
             echo "Create/update table ended";
         }

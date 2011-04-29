@@ -34,4 +34,6 @@
     define('_SQL_CREATE_TABLE_INPUT', 'Change this value to start a new table then clic [add column].');
     define('_SQL_CREATE_TABLE_SUBMIT', 'Create/Update table now');
     define('_SQL_ENUMERATIONS', 'Enumerations');
+    define('_SQL_DELETE_COLUMN', '[delete]');
+    define('_SQL_DELETE_TABLE', '[delete]');
 ?>
