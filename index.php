@@ -36,6 +36,7 @@
 
         <script type="text/javascript" src="./js/jquery.min.js"></script>
         <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.php_serial-0.2.js"></script>
         
         <script type="text/javascript" src="./js/dropdown.js"></script>
         
@@ -164,7 +165,7 @@
                 var _html  = $('#sql_tableColumns').html();
                 var _value = $('#sql_tableName_new').val();
 
-                $('#sql_tableName_loading').html('<img src="pics/ajax-loader.gif" alt="..." title="..." />');
+                $('#sql_tableName_loading').html('<img src="pics/ajax-loader.gif" alt="..." title="..." >');
                 
                 $.ajax({
                     type: "POST",
@@ -278,7 +279,7 @@
                 var _html  = $('#sql_tableColumns').html();
                 var _value = $('#sql_tableName_new').val();
 
-                $('#sql_tableName_loading').html('<img src="pics/ajax-loader.gif" alt="..." title="..." />');
+                $('#sql_tableName_loading').html('<img src="pics/ajax-loader.gif" alt="..." title="..." >');
                 
                 $.ajax({
                     type: "POST",
@@ -569,7 +570,7 @@
                 newColumn  = "<li class=\"_li_\">";
                 newColumn += "<span class=\"_a_ _delete_\"><?=_SQL_DELETE_COLUMN?> </span>";
                 newColumn += "<span class=\"_a_ _drag_\"> [drag] </span>";
-                newColumn += "<?=_SQL_COLUMN_NAME?> <input type=\"text\" size=\"8\" maxsize=\"32\" name=\"_sql_[table][column][name][]\" value=\""+name+"\" />";
+                newColumn += "<?=_SQL_COLUMN_NAME?> <input type=\"text\" size=\"8\" maxsize=\"32\" name=\"_sql_[table][column][name][]\" alt=\""+name+"\" title=\""+name+"\" value=\""+name+"\" />";
                 newColumn += selectType ;
                 newColumn += "<span class=\"sql_columnParams\">"+_params+"</span>";
                 newColumn += "</li>";

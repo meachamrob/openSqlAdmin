@@ -18,7 +18,7 @@
     */
     
     header("Cache-Control: no-cache, must-revalidate");
-
+    
     /*
      * show_databases.php
      * 
@@ -70,5 +70,9 @@
         
     // ---
 
-        echo json_encode($databases);
+        if ( function_exists('json_encode') ) {
+            echo json_encode($databases);
+        } else {
+            echo '[{"Database":"ERROR Function \"json_encode\" do not exist."}]';
+        }
 ?>
