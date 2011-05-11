@@ -114,6 +114,14 @@ class Database {
         
         return $results;
     }
+    
+    public function drop_database($database_name)
+    {
+        $query = 'DROP DATABASE IF EXISTS `'.$database_name.'`';
+        $results = mysql_query($query,$this->dbh);
+        
+        return $query;
+    }
 
     public function ARO($query)
     {

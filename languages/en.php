@@ -36,4 +36,6 @@
     define('_SQL_ENUMERATIONS', 'Enumerations');
     define('_SQL_DELETE_COLUMN', '[delete]');
     define('_SQL_DELETE_TABLE', '[delete]');
+    define('_SQL_DELETE_DATABASE', '[delete]');
+    define('_SQL_SELECT_DATABASE', 'Select database');
 ?>
