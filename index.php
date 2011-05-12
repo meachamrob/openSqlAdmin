@@ -69,6 +69,7 @@
 
         <div id="col-right">
             <div id="sql_formCreateTable"></div>
+            <div id="sql_tableContent"></div>
         </div>
         
         <?php include_once("./js/openSqlAdmin.js"); ?>

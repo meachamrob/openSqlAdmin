@@ -1,5 +1,8 @@
 <script type="text/javascript">
 
+    var select_start    = 0;
+    var select_nb       = 10;
+
     var _box_tables = '';
 
     _box_tables += '<div class="sidebox">';
@@ -9,6 +12,17 @@
     _box_tables += '  </div>';
     _box_tables += '  <div class="boxfooter"><h2></h2></div>';
     _box_tables += '</div>';
+    
+    var _box_tableContent = '';
+
+    _box_tableContent += '<div class="sidebox">';
+    _box_tableContent += '  <div class="boxhead"><h2><div class="show_titre"><?=_SQL_TABLE_CONTENT?></div></h2></div>';
+    _box_tableContent += '  <div class="boxbody">';
+    _box_tableContent += '    <p><ul></ul></p>';
+    _box_tableContent += '  </div>';
+    _box_tableContent += '  <div class="boxfooter"><h2></h2></div>';
+    _box_tableContent += '</div>';
+        
         
     $(document).ready(function() {
         dspDatabases();
@@ -20,12 +34,14 @@
 
     $("#sql_databasesNames li span._database_name_ ").live("click", function()
     {
+        $('#sql_tablesNames').html(_box_tables);
+        $('#sql_tableContent').html('');
+        
         var _index  = $("#sql_databasesNames li span._database_name_").index(this);
         var _value  = $(this).html();
-
-        $('#sql_tablesNames').html(_box_tables);
         
         $('#sql_databaseName').html(_value);
+        
         dspTables(_value);
         dspFormCreateTable(_value);
     });
@@ -36,6 +52,10 @@
 
     $("#sql_databasesNames li span._delete_database_").live("click", function()
     {
+        $('#sql_tablesNames').html('');
+        $('#sql_formCreateTable').html('');
+        $('#sql_tableContent').html('');
+    
         var _index          = $("#sql_databasesNames li span._delete_database_").index(this);
         var _database_name  = $("#sql_databasesNames li span:eq("+_index+")._database_name_").html();
 
@@ -61,6 +81,10 @@
 
     $('#sql_databaseName_new').live("change", function()
     {
+        $('#sql_tablesNames').html('');
+        $('#sql_formCreateTable').html('');
+        $('#sql_tableContent').html('');
+    
         var _value = $('#sql_databaseName_new').val();
 
         // stop form from submitting normally
@@ -95,13 +119,15 @@
     /* ========================================== */
 
     $("#sql_tablesNames ul li span._table_name_").live("click", function()
-    {                
+    {
+        $('#sql_tableContent').html(_box_tableContent);
+    
         var _database_name = $("#sql_databaseName").html(); // @todo : !!! SALE !!!
         
         var _index  = $("#sql_tablesNames ul li span._table_name_").index(this);
         var _value  = $(this).html();
 
-        // On met en surbrillance la table sélectionnée dans la liste des tables :
+        // Highlight the selected table :
         $("#sql_tablesNames ul li").removeClass("_selected_");
         $("#sql_tablesNames ul li:eq("+_index+")").addClass("_selected_");
 
@@ -131,6 +157,7 @@
                 if ( results.length > 0 )
                 {
                     dspColumns(results);
+                    dspTableContent(_database_name,_value,select_start,select_nb);
                 }
                 
             }
@@ -245,6 +272,7 @@
                 if ( results.length > 0 )
                 {
                     dspColumns(results);
+                    dspTableContent(_database_name,_value,select_start,select_end);
                 }
                 
             }
@@ -339,10 +367,61 @@
         
         $('#sql_tablesNames ul').html(_tables);
     }
+    
+    /* ============= */
+    /* --- TABLE --- */
+    /* ============= */
+    
+    function dspTableContent(database_name,table_name,select_start,select_nb)
+    {
+        $.ajax({
+            type: "POST",
+            url: "ajax/select.php",
+            data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+database_name+"&table_name="+table_name+"&select_start="+select_start+"&select_nb="+select_nb,
+            success: function(msg,text){
+                var _results = eval(msg);
+                _dspTableContent(_results);
+            }
+        });
+    }
+    
+    function _dspTableContent(rows)
+    {
+        var _content = "";
+        
+        /* Columns names */
+        
+            _content += "<tr class=\"row\"><td></td>";
+            
+            for ( _key in rows[0] ) 
+            {
+                _content += "<td class=\"cell title\">" + _key + "</td>";
+            }
+            
+            _content += "</tr>";
+        
+        /* Content */
+        
+            for ( var i = 0 ; i < rows.length ; i++ )
+            {
+                _content += "<tr class=\"row\"><td><div class=\"count\">"+i+"</div></td>";
+                
+                for ( _key in rows[i] ) 
+                {
+                    _content += "<td class=\"cell\">" + rows[i][_key] + "</td>";
+                }
+                
+                _content += "</tr>";
+            }
+        
+        /* Output */
+        
+            $('#sql_tableContent ul').html('<table>'+_content+'</table>');
+    }
 
-    /* ==================================================== */
-    /* --- Afficher les colonnes d\'une table existante --- */
-    /* ==================================================== */
+    /* ============================================= */
+    /* --- Display columns for an existing table --- */
+    /* ============================================= */
 
     function dspFormCreateTable(_database_name)
     {

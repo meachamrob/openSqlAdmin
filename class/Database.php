@@ -53,6 +53,14 @@ class Database {
         }
     }
     
+    public function select($table_name,$select_start,$select_nb)
+    {
+        $query = 'SELECT * FROM `'.$this->database_name.'`.`'.$table_name.'` LIMIT '.$select_start.','.$select_nb;
+        $results = $this->ARO($query);
+        
+        return $results;
+    }
+    
     function create_database($database_name)
     {
         if ( trim($database_name) == '' ) return "ERROR : Missing database name.";

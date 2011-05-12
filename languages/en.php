@@ -19,6 +19,7 @@
     
     // Les apostrophes sont interdits 
     define('_SQL_TABLE_NAME','Table name');
+    define('_SQL_TABLE_CONTENT', 'Table content');
     define('_SQL_ADD_COLUMN','Add column');
     define('_SQL_COLUMN_NAME','Name');
     define('_SQL_COLUMN_TYPE','Type');
