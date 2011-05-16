@@ -16,6 +16,8 @@
     You should have received a copy of the GNU General Public License
     along with openSqlAdmin.  If not, see <http://www.gnu.org/licenses/>.
     */
+
+    error_reporting(0);
     
     header("Cache-Control: no-cache, must-revalidate");
     
