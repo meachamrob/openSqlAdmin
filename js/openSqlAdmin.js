@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
     var select_start    = 0;
-    var select_nb       = 10;
+    var select_nb       = 100;
 
     var _box_tables = '';
 
@@ -18,11 +18,10 @@
     _box_tableContent += '<div class="sidebox">';
     _box_tableContent += '  <div class="boxhead"><h2><div class="show_titre"><?=_SQL_TABLE_CONTENT?></div></h2></div>';
     _box_tableContent += '  <div class="boxbody">';
-    _box_tableContent += '    <p><ul></ul></p>';
+    _box_tableContent += '    <p><ul></ul>&nbsp;</p>';
     _box_tableContent += '  </div>';
     _box_tableContent += '  <div class="boxfooter"><h2></h2></div>';
     _box_tableContent += '</div>';
-        
         
     $(document).ready(function() {
         dspDatabases();
@@ -381,6 +380,7 @@
             success: function(msg,text){
                 var _results = eval(msg);
                 _dspTableContent(_results);
+                $('#tableContent').dataTable();
             }
         });
     }
@@ -389,22 +389,26 @@
     {
         var _content = "";
         
-        /* Columns names */
+        /* Header : Columns names */
         
-            _content += "<tr class=\"row\"><td></td>";
+            _content += "<thead><tr><th></th>";
             
             for ( _key in rows[0] ) 
             {
-                _content += "<td class=\"cell title\">" + _key + "</td>";
+                _content += "<th class=\"sorting\">" + _key + "</th>";
             }
             
-            _content += "</tr>";
+            _content += "</tr></thead>";
         
         /* Content */
         
+            _content += "<tbody>";
+            
             for ( var i = 0 ; i < rows.length ; i++ )
             {
-                _content += "<tr class=\"row\"><td><div class=\"count\">"+i+"</div></td>";
+                var _line_number = sprintf("%03s", i.toString() );
+                
+                _content += "<tr class=\"row\"><td><div class=\"count\">"+_line_number+"</div></td>";
                 
                 for ( _key in rows[i] ) 
                 {
@@ -413,10 +417,23 @@
                 
                 _content += "</tr>";
             }
+            
+            _content += "</tbody>";
+        
+        /* Footer : Columns names */
+        
+            _content += "<tfoot><tr><th></th>";
+            
+            for ( _key in rows[0] ) 
+            {
+                _content += "<th>" + _key + "</th>";
+            }
+            
+            _content += "</tr></tfoot>";
         
         /* Output */
         
-            $('#sql_tableContent ul').html('<table>'+_content+'</table>');
+            $('#sql_tableContent ul').html('<table id="tableContent" class="display">'+_content+'</table>');
     }
 
     /* ============================================= */

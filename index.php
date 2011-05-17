@@ -36,9 +36,16 @@
 
         <script type="text/javascript" src="./js/jquery.min.js"></script>
         <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="./js/jquery.php_serial-0.2.js"></script>
+        <!-- script type="text/javascript" src="./js/jquery.php_serial-0.2.js"></script -->
+        <script type="text/javascript" src="./js/sprintf.js/src/sprintf.js"></script>
         
         <script type="text/javascript" src="./js/dropdown.js"></script>
+        
+        <style type="text/css" title="currentStyle">
+            @import "./js/DataTables-1.7.6/media/css/demo_page.css";
+            @import "./js/DataTables-1.7.6/media/css/demo_table.css";
+        </style>
+        <script type="text/javascript" language="javascript" src="./js/DataTables-1.7.6/media/js/jquery.dataTables.js"></script>
         
     </head>
     <body>
