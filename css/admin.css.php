@@ -5,6 +5,28 @@
     color:#FD6F6B;
 }
 
+div._delete_table_{
+    background:url("../pics/trash.gif") no-repeat;
+    width:16px;
+    height:16px;
+    display:inline-block;
+    filter:alpha(opacity=70);
+    -moz-opacity: 0.70;
+    opacity: 0.70;
+    vertical-align:top;
+}
+
+div._delete_table_:hover{
+    background:url("../pics/trash.gif") no-repeat;
+    width:16px;
+    height:16px;
+    display:inline-block;
+    filter:alpha(opacity=100);
+    -moz-opacity: 1.00;
+    opacity: 1.00;
+    vertical-align:top;
+}
+
 button{
     font-size:10px;
     padding:0px;
@@ -45,6 +67,7 @@ li{
 #sql_tablesNames li{
     cursor:pointer;
     display:block;
+    margin-bottom:1px;
 }
 
 #sql_tablesNames li:hover{

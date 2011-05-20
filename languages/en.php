@@ -36,7 +36,7 @@
     define('_SQL_CREATE_TABLE_SUBMIT', 'Create/Update table now');
     define('_SQL_ENUMERATIONS', 'Enumerations');
     define('_SQL_DELETE_COLUMN', 'Delete');
-    define('_SQL_DELETE_TABLE', '[delete]');
+    define('_SQL_DELETE_TABLE', '');
     define('_SQL_DELETE_DATABASE', '[delete]');
     define('_SQL_SELECT_DATABASE', 'Select database');
     define('_SQL_BUTTON_REFRESH_CONTENT', 'Refresh content');

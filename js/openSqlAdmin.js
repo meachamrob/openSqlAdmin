@@ -169,10 +169,10 @@
     /* --- TABLES NAMES : Click on button [delete] --- */
     /* =============================================== */
 
-    $("#sql_tablesNames ul li span._delete_table_").live("click", function()
+    $("#sql_tablesNames ul li div._delete_table_").live("click", function()
     {
         var _database_name  = $("#sql_databaseName").html(); // @todo : !!! SALE !!!
-        var _index          = $("#sql_tablesNames ul li span._delete_table_").index(this);
+        var _index          = $("#sql_tablesNames ul li div._delete_table_").index(this);
         var _table_name     = $("#sql_tablesNames ul li span:eq("+_index+")._table_name_").html();
 
         if (confirm("Delete selected table \""+_table_name+"\" ?"))
@@ -367,7 +367,7 @@
         
         for ( var i = 0 ; i < tables.length ; i++ )
         {
-            _tables += "<li><span class=\"_a_ _delete_table_\"><?=_SQL_DELETE_TABLE?> </span> <span class=\"_a_ _table_name_\">" + tables[i]['Tables_in_'+database_name] + "</span></li>";
+            _tables += "<li><div class=\"_a_ _delete_table_\"><?=_SQL_DELETE_TABLE?> </div> <span class=\"_a_ _table_name_\">" + tables[i]['Tables_in_'+database_name] + "</span></li>";
         }
         
         $('#sql_tablesNames ul').html(_tables);
@@ -628,7 +628,6 @@
         /* --- ---*/
     
         newColumn  = "<li class=\"_li_\">";
-        //newColumn += "<span class=\"_a_ _delete_\"><?=_SQL_DELETE_COLUMN?> </span>";
         newColumn += "<button type=\"button\" class=\"_a_ _delete_\"><?=_SQL_DELETE_COLUMN?> </button>";
         newColumn += "<span class=\"_a_ _drag_\"> [drag] </span>";
         newColumn += "<?=_SQL_COLUMN_NAME?> <input type=\"text\" size=\"8\" maxsize=\"32\" name=\"_sql_[table][column][name][]\" alt=\""+name+"\" title=\""+name+"\" value=\""+name+"\" />";
