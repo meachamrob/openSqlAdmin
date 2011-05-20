@@ -1,6 +1,15 @@
 <?php
     header("Content-type: text/css");
 ?>
+._a_{
+    color:#FD6F6B;
+}
+
+button{
+    font-size:10px;
+    padding:0px;
+}
+
 #sql_tableContent .sidebox {
     width-min:100%;
     width:-moz-fit-content; 

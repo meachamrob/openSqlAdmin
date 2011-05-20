@@ -108,7 +108,7 @@
                     dspDatabases();
                     dspTables(_value);
                     dspFormCreateTable(_value);
-                    alert(msg);
+                    //alert(msg);
                 }
             });
         }
@@ -195,9 +195,9 @@
     /* --- CREATE TABLE : Click on button [delete] --- */
     /* =============================================== */
 
-    $("#sql_createTable span._delete_").live("click", function()
+    $("#sql_createTable button._delete_").live("click", function()
     {
-        var _index  = $("#sql_createTable span._delete_").index(this);
+        var _index  = $("#sql_createTable button._delete_").index(this);
 
         if (confirm("Delete selected column ?"))
         {
@@ -268,11 +268,16 @@
                 //alert(msg);
                 var results = eval(msg);
                 $('#sql_tableName_loading').html('');
-                
+
                 if ( results.length > 0 )
                 {
                     dspColumns(results);
                     dspTableContent(_database_name,_value,select_start,select_end);
+                }
+                
+                else
+                {
+                    $('#sql_tableColumns').append(_addColumn('','','','','','',''));
                 }
                 
             }
@@ -304,7 +309,7 @@
             success: function(msg,text){
                 $('#sql_tableName_loading').html('');
                 dspTables(_database_name);
-                alert(msg);
+                //alert(msg);
             }
         });
 
@@ -463,7 +468,7 @@
         _html += '          <ul id="sql_tableColumns"></ul>';
         _html += '          <p>';
         _html += '              <span class="_a_ _button_" onclick="$(\'#sql_tableColumns\').append(_addColumn(\'\',\'\',\'\',\'\',\'\',\'\',\'\'));"><?=_SQL_ADD_COLUMN?></span>';
-        _html += '              <input type="submit" value="<?=_SQL_CREATE_TABLE_SUBMIT?>" />';
+        _html += '              <button class="_a_" type="submit" ><?=_SQL_CREATE_TABLE_SUBMIT?></button>';
         _html += '          </p>';
         _html += '      </div>';
         _html += '      <div class="boxfooter"><h2></h2></div>';
@@ -623,7 +628,8 @@
         /* --- ---*/
     
         newColumn  = "<li class=\"_li_\">";
-        newColumn += "<span class=\"_a_ _delete_\"><?=_SQL_DELETE_COLUMN?> </span>";
+        //newColumn += "<span class=\"_a_ _delete_\"><?=_SQL_DELETE_COLUMN?> </span>";
+        newColumn += "<button type=\"button\" class=\"_a_ _delete_\"><?=_SQL_DELETE_COLUMN?> </button>";
         newColumn += "<span class=\"_a_ _drag_\"> [drag] </span>";
         newColumn += "<?=_SQL_COLUMN_NAME?> <input type=\"text\" size=\"8\" maxsize=\"32\" name=\"_sql_[table][column][name][]\" alt=\""+name+"\" title=\""+name+"\" value=\""+name+"\" />";
         newColumn += selectType ;
