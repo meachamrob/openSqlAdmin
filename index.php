@@ -42,10 +42,11 @@
         <script type="text/javascript" src="./js/dropdown.js"></script>
         
         <style type="text/css" title="currentStyle">
-            @import "./js/DataTables-1.7.6/media/css/demo_page.css";
             @import "./js/DataTables-1.7.6/media/css/demo_table.css";
         </style>
         <script type="text/javascript" language="javascript" src="./js/DataTables-1.7.6/media/js/jquery.dataTables.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="./css/datatables.css.php?PREFIX_URL_CSS=./" />
         
     </head>
     <body>

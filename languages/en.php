@@ -39,4 +39,5 @@
     define('_SQL_DELETE_TABLE', '[delete]');
     define('_SQL_DELETE_DATABASE', '[delete]');
     define('_SQL_SELECT_DATABASE', 'Select database');
+    define('_SQL_BUTTON_REFRESH_CONTENT', 'Refresh content');
 ?>

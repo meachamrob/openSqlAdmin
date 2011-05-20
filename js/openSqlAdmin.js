@@ -18,6 +18,7 @@
     _box_tableContent += '<div class="sidebox">';
     _box_tableContent += '  <div class="boxhead"><h2><div class="show_titre"><?=_SQL_TABLE_CONTENT?></div></h2></div>';
     _box_tableContent += '  <div class="boxbody">';
+    _box_tableContent += '    <div id="tableContentButtonRefresh"></div>';
     _box_tableContent += '    <p><ul></ul>&nbsp;</p>';
     _box_tableContent += '  </div>';
     _box_tableContent += '  <div class="boxfooter"><h2></h2></div>';
@@ -380,7 +381,13 @@
             success: function(msg,text){
                 var _results = eval(msg);
                 _dspTableContent(_results);
-                $('#tableContent').dataTable();
+                
+                $('#tableContent').dataTable(
+                    {"sPaginationType": "full_numbers"}
+                );
+
+                $('#tableContentButtonRefresh').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent('"+database_name+"','"+table_name+"','"+select_start+"','"+select_nb+"');\" ><?=_SQL_BUTTON_REFRESH_CONTENT?></button>");
+                
             }
         });
     }

@@ -25,3 +25,6 @@ a, input{
     padding-top:15px;
     padding-left:50px;
 }
+.count{
+    background:#fd6f6b;
+}
