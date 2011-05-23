@@ -6,7 +6,7 @@ body { font-family:Arial, Helvetica, Sans-Serif; font-size:0.75em; color:#000;}
 .desc a {color:#0092dd;}
 
 .dropdown dd, .dropdown dt, .dropdown ul { margin:0px; padding:0px; }
-.dropdown dd { position:relative; }
+.dropdown dd { position:relative; z-index:100; }
 
 .dropdown a, .dropdown a:visited {
     color:#816c5b;

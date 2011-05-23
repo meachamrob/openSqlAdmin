@@ -2,10 +2,10 @@
     header("Content-type: text/css");
 ?>
 ._a_{
-    color:#FD6F6B;
+    /*color:#FD6F6B;*/
 }
 
-div._delete_table_{
+div._delete_table_, div._delete_database_{
     background:url("../pics/trash.gif") no-repeat;
     width:16px;
     height:16px;
@@ -16,7 +16,7 @@ div._delete_table_{
     vertical-align:top;
 }
 
-div._delete_table_:hover{
+div._delete_table_:hover, div._delete_database_:hover{
     background:url("../pics/trash.gif") no-repeat;
     width:16px;
     height:16px;

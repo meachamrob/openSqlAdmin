@@ -31,7 +31,7 @@
 
         <link rel="stylesheet" type="text/css" href="./css/defaut.css.php?PREFIX_URL_CSS=./" />
         <link rel="stylesheet" type="text/css" href="./css/dropdown.css.php?PREFIX_URL_CSS=./" />
-        <link rel="stylesheet" type="text/css" href="./css/lucid.css.php?PREFIX_URL_CSS=./" />
+        <link rel="stylesheet" type="text/css" href="./css/fedora.css.php?PREFIX_URL_CSS=./" />
         <link rel="stylesheet" type="text/css" href="./css/admin.css.php?PREFIX_URL_CSS=./" />
 
         <script type="text/javascript" src="./js/jquery.min.js"></script>

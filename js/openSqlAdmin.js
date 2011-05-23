@@ -50,13 +50,13 @@
     /* --- DATABASES NAMES : Click on button [delete] --- */
     /* ================================================== */
 
-    $("#sql_databasesNames li span._delete_database_").live("click", function()
+    $("#sql_databasesNames li div._delete_database_").live("click", function()
     {
         $('#sql_tablesNames').html('');
         $('#sql_formCreateTable').html('');
         $('#sql_tableContent').html('');
     
-        var _index          = $("#sql_databasesNames li span._delete_database_").index(this);
+        var _index          = $("#sql_databasesNames li div._delete_database_").index(this);
         var _database_name  = $("#sql_databasesNames li span:eq("+_index+")._database_name_").html();
 
         if (confirm("Delete selected database \""+_database_name+"\" ?"))
@@ -338,7 +338,7 @@
         
         for ( var i = 0 ; i < databases.length ; i++ )
         {
-            _databases += "<li><span class=\"_a_ _delete_database_\"><?=_SQL_DELETE_DATABASE?> </span> <span class=\"_a_ _database_name_\">" + databases[i].Database + "</span></li>";
+            _databases += "<li><div class=\"_a_ _delete_database_\"><?=_SQL_DELETE_DATABASE?> </div> <span class=\"_a_ _database_name_\">" + databases[i].Database + "</span></li>";
         }
         
         $('#sql_databasesNames').html(_databases);
@@ -543,9 +543,9 @@
                     "MEDIUMINT" : "-2^23 to 2^23 or 0 to 2^24",
                     "BIGINT"    : "-2^63 to 2^63 or 0 to 2^64",
                     "INT"       : "-2^31 to 2^31 or 0 to 2^32",
-                    "FLOAT"     : "Point décimal de précision simple",
-                    "DOUBLE"    : "Point décimal de précision double",
-                    "DECIMAL"   : "Point décimal, représenté sous forme de chaine"
+                    "FLOAT"     : "Precision simple",
+                    "DOUBLE"    : "Precision double",
+                    "DECIMAL"   : "String form"
                 },
                 STRING: {
                     "VARCHAR"   : "1 to 255",
