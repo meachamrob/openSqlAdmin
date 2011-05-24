@@ -5,6 +5,24 @@
     /*color:#FD6F6B;*/
 }
 
+._key_{
+    font-weight:normal;
+    width:33px;
+    height:13px;
+    text-align:right;
+    display:inline-block;
+    background: url("../pics/key.png") no-repeat;
+    margin:0px 2px 0px 2px;
+}
+._nokey_{
+    font-weight:normal;
+    width:33px;
+    height:13px;
+    text-align:right;
+    display:inline-block;
+    margin:0px 2px 0px 2px;
+}
+
 div._delete_table_, div._delete_database_{
     background:url("../pics/trash.gif") no-repeat;
     width:16px;

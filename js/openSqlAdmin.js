@@ -1,5 +1,7 @@
 <script type="text/javascript">
 
+    var _COLUMNS_ = "";
+    
     var select_start    = 0;
     var select_nb       = 100;
 
@@ -156,6 +158,7 @@
                 
                 if ( results.length > 0 )
                 {
+                    _COLUMNS_ = results;
                     dspColumns(results);
                     dspTableContent(_database_name,_value,select_start,select_nb);
                 }
@@ -271,13 +274,14 @@
 
                 if ( results.length > 0 )
                 {
+                    _COLUMNS_ = results;
                     dspColumns(results);
                     dspTableContent(_database_name,_value,select_start,select_end);
                 }
                 
                 else
                 {
-                    $('#sql_tableColumns').append(_addColumn('','','','','','',''));
+                    $('#sql_tableColumns').append(_addColumn('','','','','','','',''));
                 }
                 
             }
@@ -400,32 +404,73 @@
     function _dspTableContent(rows)
     {
         var _content = "";
-        
+
         /* Header : Columns names */
         
             _content += "<thead><tr><th></th>";
             
+            var i = 0;
+            
             for ( _key in rows[0] ) 
             {
-                _content += "<th class=\"sorting\">" + _key + "</th>";
+                var _column_title = _key;
+                
+                if ( _COLUMNS_[i].Key ) { _column_title += " <div class=\"_key_\"></div>"; }
+                
+                _content += "<th class=\"sorting\">" + _column_title + "</div></th>";
+                
+                i++;
             }
             
-            _content += "</tr></thead>";
+            _content += "<th></th></tr></thead>";
         
         /* Content */
-        
+
             _content += "<tbody>";
             
             for ( var i = 0 ; i < rows.length ; i++ )
             {
+                var _where = new Array();
+                
                 var _line_number = sprintf("%03s", i.toString() );
                 
                 _content += "<tr class=\"row\"><td><div class=\"count\">"+_line_number+"</div></td>";
                 
+                var j = 0;
+                    
                 for ( _key in rows[i] ) 
                 {
-                    _content += "<td class=\"cell\">" + rows[i][_key] + "</td>";
+                    // _where : Tableau associatif des colonnes clées avec les valeurs ( Pour chaque ligne )
+                    
+                    if ( _COLUMNS_[j].Key ) { _where[_COLUMNS_[j].Field] = rows[i][_key]; }
+                    
+                    // ---
+                    
+                   _content += "<td class=\"cell\">" + rows[i][_key] + "</td>";
+                   
+                   j++;
                 }
+                
+                //console.log(_where);
+                
+                // Actions Button(s)
+                
+                _content += "<td>";
+                
+                var _where_sql = "WHERE ";
+                
+                var j = 0;
+                
+                for ( _key in _where ) 
+                {
+                    if ( j > 0 ) { _where_sql += " AND ";}
+                    _where_sql += "`"+_key + "`=\"" + _where[_key] + "\"";
+                    j++;
+                }
+                
+                _content += "<span title='"+_where_sql+"'>(?)</span></td>";
+                
+                // ---
                 
                 _content += "</tr>";
             }
@@ -441,7 +486,7 @@
                 _content += "<th>" + _key + "</th>";
             }
             
-            _content += "</tr></tfoot>";
+            _content += "<th></th></tr></tfoot>";
         
         /* Output */
         
@@ -467,7 +512,7 @@
         _html += '          <?=_SQL_TABLE_NAME?> <input type="text" maxsize="32" id="sql_tableName_new" name="_sql_[table][name]" alt="<?=_SQL_CREATE_TABLE_INPUT?>" title="<?=_SQL_CREATE_TABLE_INPUT?>" />';
         _html += '          <ul id="sql_tableColumns"></ul>';
         _html += '          <p>';
-        _html += '              <span class="_a_ _button_" onclick="$(\'#sql_tableColumns\').append(_addColumn(\'\',\'\',\'\',\'\',\'\',\'\',\'\'));"><?=_SQL_ADD_COLUMN?></span>';
+        _html += '              <span class="_a_ _button_" onclick="$(\'#sql_tableColumns\').append(_addColumn(\'\',\'\',\'\',\'\',\'\',\'\',\'\',\'\'));"><?=_SQL_ADD_COLUMN?></span>';
         _html += '              <button class="_a_" type="submit" ><?=_SQL_CREATE_TABLE_SUBMIT?></button>';
         _html += '          </p>';
         _html += '      </div>';
@@ -520,7 +565,7 @@
             
             // Add column :
             
-                _newColumns += _addColumn( columns[i].Field , columns[i].Type , columns[i].Default ,_length , _enumerations, _auto_increment , _unsigned );
+                _newColumns += _addColumn( columns[i].Field , columns[i].Type , columns[i].Key, columns[i].Default ,_length , _enumerations, _auto_increment , _unsigned );
 
             // ---
         }
@@ -532,7 +577,7 @@
     /* --- Html code for 1 column --- */
     /* ============================== */
 
-    function _addColumn(name,type,_default,_length,_enumerations,_auto_increment,unsigned)
+    function _addColumn(name,type,_key,_default,_length,_enumerations,_auto_increment,unsigned)
     {
         /* --- Select Type --- */
         
@@ -624,6 +669,10 @@
             {
                 _params = _hiddenLength(_type) + _selectEnum(_enumerations,_default) + _unsigned(0,0) + _autoIncrement(0,0);
             }
+        
+        /* --- Key --- */
+        
+        if ( _key ) { var _key_class = "_key_"; } else { var _key_class = "_nokey_"; }
 
         /* --- ---*/
     
@@ -632,6 +681,7 @@
         newColumn += "<span class=\"_a_ _drag_\"> [drag] </span>";
         newColumn += "<?=_SQL_COLUMN_NAME?> <input type=\"text\" size=\"8\" maxsize=\"32\" name=\"_sql_[table][column][name][]\" alt=\""+name+"\" title=\""+name+"\" value=\""+name+"\" />";
         newColumn += selectType ;
+        newColumn += "<div class=\""+_key_class+"\">"+_key+"</div>";
         newColumn += "<span class=\"sql_columnParams\">"+_params+"</span>";
         newColumn += "</li>";
 
