@@ -80,6 +80,7 @@
             <div id="sql_tableContent"></div>
         </div>
         
+        <?php include_once("./js/Database.class.js"); ?>
         <?php include_once("./js/openSqlAdmin.js"); ?>
         
     </body>

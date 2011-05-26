@@ -1,5 +1,7 @@
 <script type="text/javascript">
 
+    var DatabaseModel = new DatabaseModel();                                    // Custom event "setDatabasesOK"
+    
     var _COLUMNS_ = "";
     
     var select_start    = 0;
@@ -26,9 +28,22 @@
     _box_tableContent += '  <div class="boxfooter"><h2></h2></div>';
     _box_tableContent += '</div>';
         
-    $(document).ready(function() {
-        dspDatabases();
+    $(document).ready(function() 
+    {
+        DatabaseModel.setDatabases();                                           // Custom event "setDatabasesOK"
     });
+    
+    /* ===================== */
+    /* --- Custom Events --- */
+    /* ===================== */
+
+    $('body').live("setDatabaseNameOK", function(e, data) { DatabaseModel.setTables(); dspFormCreateTable();    });
+    $('body').live("setDatabasesOK",    function(e, data) { dspDatabases();                                     });
+    $('body').live("setTablesOK",       function(e, data) { dspTables();                                        });
+    $('body').live("dropDatabaseOK",    function(e, data) { DatabaseModel.setDatabases();                       });
+    $('body').live("createDatabaseOK",  function(e, data) { DatabaseModel.setDatabases();                       });
+    $('body').live("dropTableOK",       function(e, data) { DatabaseModel.setTables();                          });
+    $('body').live("createTableOK",     function(e, data) { DatabaseModel.setTables();                          });
 
     /* ================================================ */
     /* --- DATABASES NAMES : Click on database name --- */
@@ -36,45 +51,33 @@
 
     $("#sql_databasesNames li span._database_name_ ").live("click", function()
     {
+        var _index          = $("#sql_databasesNames li span._database_name_").index(this);
+        var _database_name  = $(this).html();
+        
         $('#sql_tablesNames').html(_box_tables);
         $('#sql_tableContent').html('');
+        $('#sql_databaseName').html(_database_name);
         
-        var _index  = $("#sql_databasesNames li span._database_name_").index(this);
-        var _value  = $(this).html();
-        
-        $('#sql_databaseName').html(_value);
-        
-        dspTables(_value);
-        dspFormCreateTable(_value);
+        DatabaseModel.setDatabaseName(_database_name);                          // Custom event "setDatabaseNameOK"
     });
-    
+
     /* ================================================== */
     /* --- DATABASES NAMES : Click on button [delete] --- */
     /* ================================================== */
 
     $("#sql_databasesNames li div._delete_database_").live("click", function()
     {
+        var _index          = $("#sql_databasesNames li div._delete_database_").index(this);
+        var _database_name  = $("#sql_databasesNames li span:eq("+_index+")._database_name_").html();
+        
         $('#sql_tablesNames').html('');
         $('#sql_formCreateTable').html('');
         $('#sql_tableContent').html('');
-    
-        var _index          = $("#sql_databasesNames li div._delete_database_").index(this);
-        var _database_name  = $("#sql_databasesNames li span:eq("+_index+")._database_name_").html();
 
         if (confirm("Delete selected database \""+_database_name+"\" ?"))
         {
-            $.ajax({
-                type: "POST",
-                url: "ajax/drop_database.php",
-                data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_database_name,
-                success: function(msg,text){
-                    //alert(msg);
-                    $('#sql_databasesNames_loading').html('');
-                    dspDatabases();
-                }
-            });
+            DatabaseModel.dropDatabase(_database_name);                         // Custom event "dropDatabaseOK"
         }
-
     });
     
     /* ============================================================================= */
@@ -83,36 +86,15 @@
 
     $('#sql_databaseName_new').live("change", function()
     {
+        var _value = $('#sql_databaseName_new').val();
+    
         $('#sql_tablesNames').html('');
         $('#sql_formCreateTable').html('');
         $('#sql_tableContent').html('');
-    
-        var _value = $('#sql_databaseName_new').val();
 
-        // stop form from submitting normally
-
-        //event.preventDefault(); 
-        
         if (confirm("Create database \""+_value+"\" ?"))
         {
-
-            $('#sql_tablesNames').html(_box_tables);
-            
-            $("#sql_databaseName").html(_value);
-            
-            $("#sql_databaseName_new").attr('value','');
-        
-            $.ajax({
-                type: "POST",
-                url: "ajax/create_database.php",
-                data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_value,
-                success: function(msg,text){
-                    dspDatabases();
-                    dspTables(_value);
-                    dspFormCreateTable(_value);
-                    //alert(msg);
-                }
-            });
+            DatabaseModel.createDatabase(_value);                               // Custom event "createDatabaseOK"
         }
     });
 
@@ -122,25 +104,20 @@
 
     $("#sql_tablesNames ul li span._table_name_").live("click", function()
     {
-        $('#sql_tableContent').html(_box_tableContent);
-    
-        var _database_name = $("#sql_databaseName").html(); // @todo : !!! SALE !!!
-        
-        var _index  = $("#sql_tablesNames ul li span._table_name_").index(this);
-        var _value  = $(this).html();
+        var _database_name  = DatabaseModel.getDatabaseName();
+        var _index          = $("#sql_tablesNames ul li span._table_name_").index(this);
+        var _value          = $(this).html();
 
+        $('#sql_tableContent').html(_box_tableContent);
+        $('#sql_tableColumns').html('');
+        $('#sql_tableName_new').val(_value);
+        
         // Highlight the selected table :
+        
         $("#sql_tablesNames ul li").removeClass("_selected_");
         $("#sql_tablesNames ul li:eq("+_index+")").addClass("_selected_");
 
         // ---
-        $('#sql_tableColumns').html('');
-        $('#sql_tableName_new').val(_value);
-
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // !!! Le code ci-dessous est a mutualiser avec la possibilité !!!
-        // !!! de changer le nom de la table depuis le champs input    !!!
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         var _html  = $('#sql_tableColumns').html();
         var _value = $('#sql_tableName_new').val();
@@ -153,6 +130,9 @@
             data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_database_name+"&table_name="+_value,
             success: function(msg,text){
                 //alert(msg);
+                
+                DatabaseModel.setTableName(_value);                             // Custom event "setTableNameOK"
+                
                 var results = eval(msg);
                 $('#sql_tableName_loading').html('');
                 
@@ -174,22 +154,12 @@
 
     $("#sql_tablesNames ul li div._delete_table_").live("click", function()
     {
-        var _database_name  = $("#sql_databaseName").html(); // @todo : !!! SALE !!!
         var _index          = $("#sql_tablesNames ul li div._delete_table_").index(this);
         var _table_name     = $("#sql_tablesNames ul li span:eq("+_index+")._table_name_").html();
 
         if (confirm("Delete selected table \""+_table_name+"\" ?"))
         {
-            $.ajax({
-                type: "POST",
-                url: "ajax/drop_table.php",
-                data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_database_name+"&table_name="+_table_name,
-                success: function(msg,text){
-                    //alert(msg);
-                    $('#sql_tablesNames_loading').html('');
-                    dspTables(_database_name);
-                }
-            });
+            DatabaseModel.dropTable(_table_name);                               // Custom event "dropTableOK"
         }
 
     });
@@ -256,10 +226,9 @@
     {
         $('#sql_tableColumns').html('');
         
-        var _database_name = $("#sql_databaseName").html(); // @todo : !!! SALE !!!
-        
-        var _html  = $('#sql_tableColumns').html();
-        var _value = $('#sql_tableName_new').val();
+        var _database_name  = DatabaseModel.getDatabaseName();
+        var _html           = $('#sql_tableColumns').html();
+        var _value          = $('#sql_tableName_new').val();
 
         $('#sql_tableName_loading').html('<img src="pics/ajax-loader.gif" alt="..." title="..." >');
         
@@ -295,7 +264,7 @@
 
     $("#sql_createTable").live("submit", function(event)
     {
-        var _database_name = $("#sql_databaseName").html(); // @todo : !!! SALE !!!
+        var _database_name = DatabaseModel.getDatabaseName();
 
         // stop form from submitting normally
 
@@ -310,10 +279,11 @@
             type: "POST",
             url: "ajax/create_table.php",
             data: _data,
-            success: function(msg,text){
-                $('#sql_tableName_loading').html('');
-                dspTables(_database_name);
+            success: function(msg,text)
+            {
                 //alert(msg);
+                $('#sql_tableName_loading').html('');
+                $('body').trigger('createTableOK','');                          // Custom event "createTableOK"
             }
         });
 
@@ -325,15 +295,8 @@
 
     function dspDatabases()
     {
-        $.ajax({
-            type: "POST",
-            url: "ajax/show_databases.php",
-            data: "dirConfigs=<?=_DIR_CONFIGS?>",
-            success: function(msg,text){
-                var _results = eval(msg);
-                _dspDatabases(_results);
-            }
-        });
+        var _databases = DatabaseModel.getDatabases();
+        _dspDatabases(_databases);
     }
 
     function _dspDatabases(databases)
@@ -352,17 +315,12 @@
     /* --- TABLES --- */
     /* ============== */
 
-    function dspTables(database_name)
-    {            
-        $.ajax({
-            type: "POST",
-            url: "ajax/show_tables.php",
-            data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+database_name,
-            success: function(msg,text){
-                var _results = eval(msg);
-                _dspTables(database_name,_results);
-            }
-        });
+    function dspTables()
+    {
+        var _database_name = DatabaseModel.getDatabaseName();
+        var _tables = DatabaseModel.getTables();
+        
+        _dspTables(_database_name,_tables);
     }
 
     function _dspTables(database_name,tables)
@@ -453,26 +411,34 @@
                 
                 //console.log(_where);
                 
-                // Actions Button(s)
+                // =========================
+                // --- Actions Button(s) ---
+                // =========================
                 
                 _content += "<td>";
                 
-                var _where_sql = "WHERE ";
+                // Button (?)
                 
-                var j = 0;
+                    var _where_sql = "WHERE ";
+                    
+                    var j = 0;
+                    
+                    for ( _key in _where ) 
+                    {
+                        if ( j > 0 ) { _where_sql += " AND ";}
+                        _where_sql += "`"+_key + "`=\"" + _where[_key] + "\"";
+                        j++;
+                    }
+                    
+                    _content += "<span title='"+_where_sql+"'>(?)</span>";
                 
-                for ( _key in _where ) 
-                {
-                    if ( j > 0 ) { _where_sql += " AND ";}
-                    _where_sql += "`"+_key + "`=\"" + _where[_key] + "\"";
-                    j++;
-                }
+                // Button [delete]
                 
-                _content += "<span title='"+_where_sql+"'>(?)</span></td>";
+                    _content += "<span onclick=\"javascript:deleteRow(\""+_where_sql+"\",\""+_where_sql+"\",\""+_where_sql+"\");\">[delete]</span>";
                 
                 // ---
                 
-                _content += "</tr>";
+                _content += "</td></tr>";
             }
             
             _content += "</tbody>";
@@ -492,13 +458,35 @@
         
             $('#sql_tableContent ul').html('<table id="tableContent" class="display">'+_content+'</table>');
     }
+    
+    /* ========================== */
+    /* --- TABLE : Delete Row --- */
+    /* ========================== */
+
+    function deleteRow(_database_name,_table_name,_where_sql)
+    {
+        if (confirm("Delete selected row ?"))
+        {
+            $.ajax({
+                type: "POST",
+                url: "ajax/delete_row.php",
+                data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_database_name+"&table_name="+_table_name+"&where_sql="+_where_sql,
+                success: function(msg,text){
+                    //alert(msg);
+                    $('#sql_tableContent_loading').html('');
+                    dspTableContent(_database_name,_table_name,select_start,select_nb);
+                }
+            });
+        }
+    }
 
     /* ============================================= */
     /* --- Display columns for an existing table --- */
     /* ============================================= */
 
-    function dspFormCreateTable(_database_name)
+    function dspFormCreateTable()
     {
+        var _database_name = DatabaseModel.getDatabaseName();
         var _html = "";
         
         _html += '<form id="sql_createTable" method="post" action="">';
