@@ -44,6 +44,7 @@
     $('body').live("createDatabaseOK",  function(e, data) { DatabaseModel.setDatabases();                       });
     $('body').live("dropTableOK",       function(e, data) { DatabaseModel.setTables();                          });
     $('body').live("createTableOK",     function(e, data) { DatabaseModel.setTables();                          });
+    $('body').live("deleteRowOK",       function(e, data) { dspTableContent(select_start,select_nb);            });
 
     /* ================================================ */
     /* --- DATABASES NAMES : Click on database name --- */
@@ -140,7 +141,7 @@
                 {
                     _COLUMNS_ = results;
                     dspColumns(results);
-                    dspTableContent(_database_name,_value,select_start,select_nb);
+                    dspTableContent(select_start,select_nb);
                 }
                 
             }
@@ -243,9 +244,10 @@
 
                 if ( results.length > 0 )
                 {
+                    DatabaseModel.setTableName(_value);                         // Custom event "setTableNameOK"
                     _COLUMNS_ = results;
                     dspColumns(results);
-                    dspTableContent(_database_name,_value,select_start,select_end);
+                    dspTableContent(select_start,select_end);
                 }
                 
                 else
@@ -339,8 +341,11 @@
     /* --- TABLE --- */
     /* ============= */
     
-    function dspTableContent(database_name,table_name,select_start,select_nb)
+    function dspTableContent(select_start,select_nb)
     {
+        var database_name   = DatabaseModel.getDatabaseName();
+        var table_name      = DatabaseModel.getTableName();
+        
         $.ajax({
             type: "POST",
             url: "ajax/select.php",
@@ -353,7 +358,7 @@
                     {"sPaginationType": "full_numbers"}
                 );
 
-                $('#tableContentButtonRefresh').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent('"+database_name+"','"+table_name+"','"+select_start+"','"+select_nb+"');\" ><?=_SQL_BUTTON_REFRESH_CONTENT?></button>");
+                $('#tableContentButtonRefresh').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent('"+select_start+"','"+select_nb+"');\" ><?=_SQL_BUTTON_REFRESH_CONTENT?></button>");
                 
             }
         });
@@ -417,25 +422,26 @@
                 
                 _content += "<td>";
                 
-                // Button (?)
+                // Array to JSON Object
                 
-                    var _where_sql = "WHERE ";
+                    var _json = "{";
                     
                     var j = 0;
                     
                     for ( _key in _where ) 
                     {
-                        if ( j > 0 ) { _where_sql += " AND ";}
-                        _where_sql += "`"+_key + "`=\"" + _where[_key] + "\"";
+                        if ( j > 0 ) { _json += ",";}
+                        _json += "'" + _key + "':'" + _where[_key] + "'";
+                        
                         j++;
                     }
                     
-                    _content += "<span title='"+_where_sql+"'>(?)</span>";
+                    _json += "}";
                 
                 // Button [delete]
-                
-                    _content += "<span onclick=\"javascript:deleteRow(\""+_where_sql+"\",\""+_where_sql+"\",\""+_where_sql+"\");\">[delete]</span>";
-                
+
+                    _content += "<span class=\"_a_\" alt=\""+_json+"\" title=\""+_json+"\" onclick=\"javascript:deleteRow("+_json+");\"><?=_SQL_DELETE_ROW?></span>";
+
                 // ---
                 
                 _content += "</td></tr>";
@@ -463,20 +469,29 @@
     /* --- TABLE : Delete Row --- */
     /* ========================== */
 
-    function deleteRow(_database_name,_table_name,_where_sql)
+    function deleteRow(_where_json)
     {
+        // console.log(_where_json);
+        
+        // Where JSON to Where SQL :
+    
+            var _where_sql = "WHERE ";
+            
+            var j = 0;
+            
+            for ( _key in _where_json ) 
+            {
+                if ( j > 0 ) { _where_sql += " AND ";}
+                _where_sql += "`" +_key + "`=\"" + _where_json[_key] + "\"";
+
+                j++;
+            }
+            
+        // ---
+
         if (confirm("Delete selected row ?"))
         {
-            $.ajax({
-                type: "POST",
-                url: "ajax/delete_row.php",
-                data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_database_name+"&table_name="+_table_name+"&where_sql="+_where_sql,
-                success: function(msg,text){
-                    //alert(msg);
-                    $('#sql_tableContent_loading').html('');
-                    dspTableContent(_database_name,_table_name,select_start,select_nb);
-                }
-            });
+            DatabaseModel.deleteRow(_where_sql);                                // Custom event "deleteRowOK"
         }
     }
 

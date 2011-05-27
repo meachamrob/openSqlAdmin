@@ -149,6 +149,13 @@ class Database {
 
         return array();
     }
+    
+    public function execute($query)
+    {
+        $results = mysql_query($query,$this->dbh);
+        
+        return $results;
+    }
 
     // =========================
     // --- FONCTIONS PRIVEES ---

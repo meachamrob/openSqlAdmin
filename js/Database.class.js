@@ -118,6 +118,19 @@ DatabaseModel.prototype = {
                 $('body').trigger('dropTableOK','');                            // Custom event "dropTableOK"
             }
         });
+    },
+    
+    deleteRow : function (where_sql)
+    {
+        $.ajax({
+            type: "POST",
+            url: "ajax/delete_row.php",
+            data: "dirConfigs=" + _this._dirConfigs + "&database_name=" + _this._database_name + "&table_name=" + _this._table_name + "&where_sql=" + where_sql,
+            success: function(msg,text)
+            {
+                $('body').trigger('deleteRowOK','');                            // Custom event "deleteRowOK"
+            }
+        });
     }
 };
     

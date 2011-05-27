@@ -34,6 +34,7 @@
         $dirConfigs     = $_POST['dirConfigs'];
         $database_name  = trim($_POST['database_name']);
         $table_name     = trim($_POST['table_name']);
+        $where_sql      = $_POST['where_sql'];
 
     // Loading configuration file(s) :
 
@@ -46,14 +47,14 @@
         $dbh = $database->connect($db['HOST'],$db['USER'],$db['PASSWORD']);
         
         if (!$dbh) exit;
+        
+    // Delete Row :
+        
+        $query = 'DELETE FROM `'.$database_name.'`.`'.$table_name.'` '.$where_sql;
+        
+        $results = $database->execute($query);
     
-    // Select DB :
+    // Output :
     
-        $database->select_db($database_name);
-        
-    // Drop table :
-        
-        $result = $database->drop_table($table_name);
-        
-        echo $result;
+        echo $results;
 ?>
