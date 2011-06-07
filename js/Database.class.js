@@ -10,7 +10,7 @@ var DatabaseModel = function () {
     this._databases     = "";
     this._table_name    = "";
     this._tables        = "";
-    this._dirConfigs    = "<?=_DIR_CONFIGS?>";
+    this._dirConfigs    = "<?php echo _DIR_CONFIGS; ?>";
     
     _this = this;
 };
@@ -102,7 +102,7 @@ DatabaseModel.prototype = {
             data: "dirConfigs=" + _this._dirConfigs + "&database_name=" + database_name,
             success: function(msg,text)
             {
-                $('body').trigger('createDatabaseOK',_this);                    // Custom event "createDatabaseOK"
+                $('body').trigger('createDatabaseOK',database_name);            // Custom event "createDatabaseOK"
             }
         });
     },

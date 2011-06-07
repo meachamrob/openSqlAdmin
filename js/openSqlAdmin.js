@@ -22,7 +22,8 @@
     _box_tableContent += '<div class="sidebox">';
     _box_tableContent += '  <div class="boxhead"><h2><div class="show_titre"><?=_SQL_TABLE_CONTENT?></div></h2></div>';
     _box_tableContent += '  <div class="boxbody">';
-    _box_tableContent += '    <div id="tableContentButtonRefresh"></div>';
+    _box_tableContent += '    <span id="tableContentButtonRefresh"></span>';
+    _box_tableContent += '    <span id="tableContentButtonDeleteAll"></span>';
     _box_tableContent += '    <p><ul></ul>&nbsp;</p>';
     _box_tableContent += '  </div>';
     _box_tableContent += '  <div class="boxfooter"><h2></h2></div>';
@@ -37,14 +38,18 @@
     /* --- Custom Events --- */
     /* ===================== */
 
-    $('body').live("setDatabaseNameOK", function(e, data) { DatabaseModel.setTables(); dspFormCreateTable();    });
-    $('body').live("setDatabasesOK",    function(e, data) { dspDatabases();                                     });
-    $('body').live("setTablesOK",       function(e, data) { dspTables();                                        });
-    $('body').live("dropDatabaseOK",    function(e, data) { DatabaseModel.setDatabases();                       });
-    $('body').live("createDatabaseOK",  function(e, data) { DatabaseModel.setDatabases();                       });
-    $('body').live("dropTableOK",       function(e, data) { DatabaseModel.setTables();                          });
-    $('body').live("createTableOK",     function(e, data) { DatabaseModel.setTables();                          });
-    $('body').live("deleteRowOK",       function(e, data) { dspTableContent(select_start,select_nb);            });
+    $('body').live("dropDatabaseOK",    function(e, data)           { DatabaseModel.setDatabases();                                                 });
+    $('body').live("createDatabaseOK",  function(e, database_name)  { DatabaseModel.setDatabases(); DatabaseModel.setDatabaseName(database_name);   });
+    $('body').live("setDatabaseNameOK", function(e, data)           { $('#sql_tablesNames').html(_box_tables); 
+                                                                      $('#sql_tableContent').html(''); 
+                                                                      $('#sql_databaseName').html(DatabaseModel.getDatabaseName());
+                                                                      DatabaseModel.setTables(); 
+                                                                      dspFormCreateTable();                               });
+    $('body').live("setDatabasesOK",    function(e, data)           { dspDatabases();                                     });
+    $('body').live("dropTableOK",       function(e, data)           { DatabaseModel.setTables();                          });
+    $('body').live("createTableOK",     function(e, data)           { DatabaseModel.setTables();                          });
+    $('body').live("setTablesOK",       function(e, data)           { dspTables();                                        });
+    $('body').live("deleteRowOK",       function(e, data)           { dspTableContent(select_start,select_nb);            });
 
     /* ================================================ */
     /* --- DATABASES NAMES : Click on database name --- */
@@ -56,7 +61,7 @@
         var _database_name  = $(this).html();
         
         $('#sql_tablesNames').html(_box_tables);
-        $('#sql_tableContent').html('');
+         
         $('#sql_databaseName').html(_database_name);
         
         DatabaseModel.setDatabaseName(_database_name);                          // Custom event "setDatabaseNameOK"
@@ -128,7 +133,7 @@
         $.ajax({
             type: "POST",
             url: "ajax/show_columns.php",
-            data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_database_name+"&table_name="+_value,
+            data: "dirConfigs=<?php echo _DIR_CONFIGS; ?>&database_name="+_database_name+"&table_name="+_value,
             success: function(msg,text){
                 //alert(msg);
                 
@@ -236,7 +241,7 @@
         $.ajax({
             type: "POST",
             url: "ajax/show_columns.php",
-            data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+_database_name+"&table_name="+_value,
+            data: "dirConfigs=<?php echo _DIR_CONFIGS; ?>&database_name="+_database_name+"&table_name="+_value,
             success: function(msg,text){
                 //alert(msg);
                 var results = eval(msg);
@@ -321,7 +326,7 @@
     {
         var _database_name = DatabaseModel.getDatabaseName();
         var _tables = DatabaseModel.getTables();
-        
+        console.log(_database_name);
         _dspTables(_database_name,_tables);
     }
 
@@ -349,7 +354,7 @@
         $.ajax({
             type: "POST",
             url: "ajax/select.php",
-            data: "dirConfigs=<?=_DIR_CONFIGS?>&database_name="+database_name+"&table_name="+table_name+"&select_start="+select_start+"&select_nb="+select_nb,
+            data: "dirConfigs=<?php echo _DIR_CONFIGS; ?>&database_name="+database_name+"&table_name="+table_name+"&select_start="+select_start+"&select_nb="+select_nb,
             success: function(msg,text){
                 var _results = eval(msg);
                 _dspTableContent(_results);
@@ -359,6 +364,7 @@
                 );
 
                 $('#tableContentButtonRefresh').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent('"+select_start+"','"+select_nb+"');\" ><?=_SQL_BUTTON_REFRESH_CONTENT?></button>");
+                //@TODO $('#tableContentButtonDeleteAll').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent();\" ><?=_SQL_BUTTON_DELETE_CONTENT?></button>");
                 
             }
         });
@@ -393,11 +399,11 @@
             
             for ( var i = 0 ; i < rows.length ; i++ )
             {
+                var _row = "";
+                
                 var _where = new Array();
                 
                 var _line_number = sprintf("%03s", i.toString() );
-                
-                _content += "<tr class=\"row\"><td><div class=\"count\">"+_line_number+"</div></td>";
                 
                 var j = 0;
                     
@@ -409,9 +415,18 @@
                     
                     // ---
                     
-                   _content += "<td class=\"cell\">" + rows[i][_key] + "</td>";
+                    var _type = _COLUMNS_[j].Type.toUpperCase();
+                    
+                    if ( _type.match(/(ENUM)/)) {
+                        var _name           = "";
+                        var _enumerations   = _getEnumFromType(_type);
+                        var _default        = rows[i][_key];
+                        _row += "<td>" + _selectEnum(_name,_enumerations,_default) + "</td>";
+                    } else {
+                        _row += "<td><textarea>" + rows[i][_key] + "</textarea></td>";
+                    }
                    
-                   j++;
+                    j++;
                 }
                 
                 //console.log(_where);
@@ -420,7 +435,7 @@
                 // --- Actions Button(s) ---
                 // =========================
                 
-                _content += "<td>";
+                var _actions = "";
                 
                 // Array to JSON Object
                 
@@ -440,11 +455,11 @@
                 
                 // Button [delete]
 
-                    _content += "<span class=\"_a_\" alt=\""+_json+"\" title=\""+_json+"\" onclick=\"javascript:deleteRow("+_json+");\"><?=_SQL_DELETE_ROW?></span>";
+                    _actions += "<span class=\"_a_\" alt=\""+_json+"\" title=\""+_json+"\" onclick=\"javascript:deleteRow("+_json+");\"><?=_SQL_DELETE_ROW?></span>";
 
                 // ---
                 
-                _content += "</td></tr>";
+                _content += "<tr class=\"row\"><td><span class=\"count\">"+_line_number + "</span>" + _actions + "</td>" + _row + "<td>" + _actions + "</td></tr>";
             }
             
             _content += "</tbody>";
@@ -506,7 +521,7 @@
         
         _html += '<form id="sql_createTable" method="post" action="">';
 
-        _html += '  <input type="hidden" name="dirConfigs"  value="<?=_DIR_CONFIGS?>" />';
+        _html += '  <input type="hidden" name="dirConfigs"  value="<?php echo _DIR_CONFIGS; ?>" />';
         _html += '  <input type="hidden" name="_sql_[database][name]" id="_sql_[database][name]" value="'+_database_name+'" />';
 
         _html += '  <div class="sidebox">';
@@ -537,16 +552,17 @@
         
         for ( var i = 0 ; i < columns.length ; i++ )
         {
-            // Longueur de la colonne :
-            
-                var _start = columns[i].Type.indexOf("(") + 1;
-                var _end   = columns[i].Type.indexOf(")");
+            // Column type :
 
-                var _length = columns[i].Type.substring(_start,_end);
-            
+                var _type   = columns[i].Type;
+
+            // Column length :
+
+                var _length = _getLengthFromType(_type);
+
             // Enum :
-            
-                var _enumerations = _length;
+
+                var _enumerations = _getEnumFromType(_type);
 
             // Autoincrement :
 
@@ -670,7 +686,7 @@
             
             else if (_type.match(/(ENUM)/)) 
             {
-                _params = _hiddenLength(_type) + _selectEnum(_enumerations,_default) + _unsigned(0,0) + _autoIncrement(0,0);
+                _params = _hiddenLength(_type) + _selectEnum("_sql_[table][column][enum][]",_enumerations,_default) + _unsigned(0,0) + _autoIncrement(0,0);
             }
         
         /* --- Key --- */
@@ -691,8 +707,8 @@
         return newColumn;
     }
     
-    function _selectEnum(_enumerations,_default){
-        var _out = "<select name=\"_sql_[table][column][enum][]\" value=\"\" >";
+    function _selectEnum(_name,_enumerations,_default){
+        var _out = "<select name=\""+_name+"\" value=\"\" >";
         var _regex = new RegExp("[,]+", "g");
         var _enums = _enumerations.split(_regex);
         
@@ -837,6 +853,18 @@
         }
 
         return _unsigned;
+    }
+    
+    function _getEnumFromType(type){ return _getLengthFromType(type); }
+    
+    function _getLengthFromType(type)
+    {
+        var _start = type.indexOf("(") + 1;
+        var _end   = type.indexOf(")");
+
+        var _value = type.substring(_start,_end);
+        
+        return _value;
     }
     
 </script>

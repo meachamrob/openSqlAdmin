@@ -108,8 +108,8 @@ tr{
 }
 
 td{
-    min-width: 25px;
-    max-width:120px;
+    min-width: 110px;
+    //max-width:120px;
     overflow:hidden;
     border-top:1px solid #f4f4f4;
     border-left:1px solid #f4f4f4;
@@ -120,3 +120,13 @@ td{
 .title{
     font-weight:bold;
 }
+
+td textarea{
+    font-size:9px;
+    width:110px;
+    height:22px;
+    cursor:text;
+}
+
+input{ cursor:text; }
+select{ cursor:pointer; }

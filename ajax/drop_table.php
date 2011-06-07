@@ -25,7 +25,6 @@
      * @param $dirConfigs
      * @param $database_name
      * @param $table_name
-     * @param $where_sql
      * 
      * @return String
      * 
