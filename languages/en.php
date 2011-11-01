@@ -17,7 +17,7 @@
     along with openSqlAdmin.  If not, see <http://www.gnu.org/licenses/>.
     */
     
-    // Les apostrophes sont interdits 
+    // Dont use character apostrophe ' 
     define('_SQL_TABLE_NAME','Table name');
     define('_SQL_TABLE_CONTENT', 'Table content');
     define('_SQL_ADD_COLUMN','Add column');

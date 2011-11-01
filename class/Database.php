@@ -158,11 +158,11 @@ class Database {
     }
 
     // =========================
-    // --- FONCTIONS PRIVEES ---
+    // --- PRIVATE FUNCTIONS ---
     // =========================
 
     private function _getTables(){
-        # Fonction : Retourne dans un tableau la liste des tables de la base passee en parametre.
+        # Function : Return an array with tables list.
         
         if ( $this->database_name == '' ) return array();
         
@@ -182,7 +182,7 @@ class Database {
     }
 
     private function _existTable($table_name){
-        # Fonction : Indique si la table passee en parametre exite ou non.
+        # Function : Check if the table exist.
         
         $tables = $this->_getTables();
         
@@ -204,7 +204,7 @@ class Database {
     }
     
     private function _existColumn($table_name,$column_name){
-        # Fonction : Verifie si une colonne existe. Retourne la position de la colonne si elle existe ( >=0 ) sinon -1.
+        # Function : Check if the column exist. Return a number >=0 if exist else return -1.
 
         $results = $this->show_columns($table_name);
 
