@@ -345,7 +345,7 @@ class Database {
                     //var_dump($def['names']);
                     //print_r($colonnes_communes);
                 }
-                // Copie des données
+                // Copy of the data
                 {
                     $colonnes_liste_1 = '';
                     $colonnes_liste_2 = '';
