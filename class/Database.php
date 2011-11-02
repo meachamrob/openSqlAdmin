@@ -104,7 +104,7 @@ class Database {
         // --- CREATE OR UPDATE TABLE(S) ---
         // =================================
 
-            foreach( $tables_definitions as $table => $colonnes )
+            foreach( $tables_definitions as $table => $columns )
             {
                 if ($this->_requireUpgrade($table,$tables_definitions))
                 {
