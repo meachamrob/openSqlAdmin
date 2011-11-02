@@ -26,7 +26,7 @@ class Database {
     }
     
     // ===========================
-    // --- FONCTIONS PUBLIQUES. ---
+    // --- FONCTIONS PUBLIQUES ---
     // ===========================
 
     function connect($server,$username,$password)
