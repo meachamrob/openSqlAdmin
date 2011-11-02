@@ -76,9 +76,9 @@ class Database {
 
     function create_tables($tables_definitions){
 
-        // =================================
-        // --- TABLES DEFINITION EXAMPLE ---
-        // =================================
+        // ==================================
+        // --- TABLES DEFINITIONS EXAMPLE ---
+        // ==================================
         {
             $tables_definitions_example = array(
                 'Table1' => array(
