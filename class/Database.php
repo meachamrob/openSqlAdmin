@@ -25,9 +25,9 @@ class Database {
         $this->dbh = '';
     }
     
-    // ===========================
-    // --- FONCTIONS PUBLIQUES ----------
-    // ===========================
+    // ========================
+    // --- PUBLIC FUNCTIONS ---
+    // ========================
 
     function connect($server,$username,$password)
     {
@@ -155,6 +155,24 @@ class Database {
         $results = mysql_query($query,$this->dbh);
         
         return $results;
+    }
+    
+    public function drop_indexs($table_name,$column_name)
+    {
+        $query = 'show index from `'.$table_name.'`';
+        
+        $results = $this->ARO($query);
+        
+        foreach ( $results as $_ )
+        {
+            if ( $column_name == $_->Column_name )
+            {
+                $query = 'DROP INDEX '.$_->Key_name.' ON `'.$table_name.'`';
+                
+                mysql_query($query,$this->dbh);
+            }
+        }
+        
     }
 
     // =========================

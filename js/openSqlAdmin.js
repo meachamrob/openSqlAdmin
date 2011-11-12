@@ -185,9 +185,9 @@
 
     });
 
-    /* =========================================== */
-    /* --- CREATE TABLE : Select a column type --- */
-    /* =========================================== */
+    /* =================================================================== */
+    /* --- CREATE TABLE : Select column type after "add column" action --- */
+    /* =================================================================== */
 
     $("#sql_createTable select").live("change", function()
     {
@@ -196,22 +196,22 @@
 
         if (_value.match(/(INT)/)) 
         {
-            $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _hiddenLength(_value) + _unsigned(0,1) + _autoIncrement(0,1) );
+            $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectPrimaryKey() + _hiddenLength(_value) + _unsigned(0,1) + _autoIncrement(0,1) );
         }
 
         else if (_value.match(/(FLOAT|DOUBLE|DECIMAL|BLOB|TEXT|DATE|TIME|YEAR)/)) 
         {
-            $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _hiddenLength(_value) + _hiddenEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
+            $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectPrimaryKey() + _hiddenLength(_value) + _hiddenEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
         }
         
         else if (_value.match(/(CHAR)/)) 
         {
-            $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectLength(255) + _hiddenEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
+            $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectPrimaryKey() + _selectLength(255) + _hiddenEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
         }
         
         else if (_value.match(/(ENUM)/)) 
         {
-            $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _hiddenLength(_value) + _inputNewEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
+            $("#sql_createTable span.sql_columnParams:eq("+_index+")").html( _selectPrimaryKey() + _hiddenLength(_value) + _inputNewEnum("") + _unsigned(0,0) + _autoIncrement(0,0) );
         }
 
         else
@@ -326,7 +326,7 @@
     {
         var _database_name = DatabaseModel.getDatabaseName();
         var _tables = DatabaseModel.getTables();
-        console.log(_database_name);
+        //console.log(_database_name);
         _dspTables(_database_name,_tables);
     }
 
@@ -671,22 +671,22 @@
             
             if (_type.match(/(INT)/)) 
             {
-                _params = _hiddenLength(_type) + _hiddenEnum(_enumerations) + _unsigned(unsigned,1) + _autoIncrement(_auto_increment,1);
+                _params = _selectPrimaryKey(_key) + _hiddenLength(_type) + _hiddenEnum(_enumerations) + _unsigned(unsigned,1) + _autoIncrement(_auto_increment,1);
             }
 
             else if (_type.match(/(FLOAT|DOUBLE|DECIMAL|BLOB|TEXT|DATE|TIME|YEAR)/)) 
             {
-                _params = _hiddenLength(_type) + _hiddenEnum(_enumerations) + _unsigned(0,0) + _autoIncrement(0,0);
+                _params = _selectPrimaryKey(_key) + _hiddenLength(_type) + _hiddenEnum(_enumerations) + _unsigned(0,0) + _autoIncrement(0,0);
             }
             
             else if (_type.match(/(CHAR)/)) 
             {
-                _params = _selectLength(_length) + _hiddenEnum(_enumerations) + _unsigned(0,0) + _autoIncrement(0,0);
+                _params = _selectPrimaryKey(_key) + _selectLength(_length) + _hiddenEnum(_enumerations) + _unsigned(0,0) + _autoIncrement(0,0);
             }
             
             else if (_type.match(/(ENUM)/)) 
             {
-                _params = _hiddenLength(_type) + _selectEnum("_sql_[table][column][enum][]",_enumerations,_default) + _unsigned(0,0) + _autoIncrement(0,0);
+                _params = _selectPrimaryKey(_key) + _hiddenLength(_type) + _selectEnum("_sql_[table][column][enum][]",_enumerations,_default) + _unsigned(0,0) + _autoIncrement(0,0);
             }
         
         /* --- Key --- */
@@ -820,7 +820,7 @@
         if ( editable == 1 )
         {
             var _checked = "";
-            
+
             if ( isChecked == 1 ) { _checked = " checked=\"checked\""; }
             
             _autoIncrement += "<?php echo _SQL_AUTO_INCREMENT; ?> <input type=\"radio\" name=\"_sql_[table][column][auto_increment][]\" "+_checked+"/>";
@@ -853,6 +853,33 @@
         }
 
         return _unsigned;
+    }
+    
+    function _selectPrimaryKey(_key){
+
+        var _selectDefinition = {
+                ""     : "---",
+                "PRI"     : "PRI",
+                "UNI"     : "UNI"
+        }
+
+        var _sd = eval('_selectDefinition');
+
+        var _out = "";
+        
+        _out += "<select class=\"sql_primary_key\" name=\"_sql_[table][column][primary_key][]\">";
+            
+        for ( var _value in _sd )
+        {
+            var _selected = "";
+            if ( _key == _sd[_value] ) { _selected = "selected = \"selected\""; }
+            
+            _out += "  <option value=\""+_value+"\" "+_selected+" >"+_sd[_value]+"</option>";
+        }
+        
+        _out += "</select>";
+
+        return _out;
     }
     
     function _getEnumFromType(type){ return _getLengthFromType(type); }
