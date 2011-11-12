@@ -20,7 +20,7 @@
     var _box_tableContent = '';
 
     _box_tableContent += '<div class="sidebox">';
-    _box_tableContent += '  <div class="boxhead"><h2><div class="show_titre"><?=_SQL_TABLE_CONTENT?></div></h2></div>';
+    _box_tableContent += '  <div class="boxhead"><h2><div class="show_titre"><?php echo _SQL_TABLE_CONTENT; ?></div></h2></div>';
     _box_tableContent += '  <div class="boxbody">';
     _box_tableContent += '    <span id="tableContentButtonRefresh"></span>';
     _box_tableContent += '    <span id="tableContentButtonDeleteAll"></span>';
@@ -312,7 +312,7 @@
         
         for ( var i = 0 ; i < databases.length ; i++ )
         {
-            _databases += "<li><div class=\"_a_ _delete_database_\"><?=_SQL_DELETE_DATABASE?> </div> <span class=\"_a_ _database_name_\">" + databases[i].Database + "</span></li>";
+            _databases += "<li><div class=\"_a_ _delete_database_\"><?php echo _SQL_DELETE_DATABASE; ?> </div> <span class=\"_a_ _database_name_\">" + databases[i].Database + "</span></li>";
         }
         
         $('#sql_databasesNames').html(_databases);
@@ -336,7 +336,7 @@
         
         for ( var i = 0 ; i < tables.length ; i++ )
         {
-            _tables += "<li><div class=\"_a_ _delete_table_\"><?=_SQL_DELETE_TABLE?> </div> <span class=\"_a_ _table_name_\">" + tables[i]['Tables_in_'+database_name] + "</span></li>";
+            _tables += "<li><div class=\"_a_ _delete_table_\"><?php echo _SQL_DELETE_TABLE; ?> </div> <span class=\"_a_ _table_name_\">" + tables[i]['Tables_in_'+database_name] + "</span></li>";
         }
         
         $('#sql_tablesNames ul').html(_tables);
@@ -363,8 +363,8 @@
                     {"sPaginationType": "full_numbers"}
                 );
 
-                $('#tableContentButtonRefresh').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent('"+select_start+"','"+select_nb+"');\" ><?=_SQL_BUTTON_REFRESH_CONTENT?></button>");
-                //@TODO $('#tableContentButtonDeleteAll').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent();\" ><?=_SQL_BUTTON_DELETE_CONTENT?></button>");
+                $('#tableContentButtonRefresh').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent('"+select_start+"','"+select_nb+"');\" ><?php echo _SQL_BUTTON_REFRESH_CONTENT; ?></button>");
+                //@TODO $('#tableContentButtonDeleteAll').html("<button class=\"_a_\" type=\"button\" onclick=\"dspTableContent();\" ><?php echo _SQL_BUTTON_DELETE_CONTENT; ?></button>");
                 
             }
         });
@@ -455,7 +455,7 @@
                 
                 // Button [delete]
 
-                    _actions += "<span class=\"_a_\" alt=\""+_json+"\" title=\""+_json+"\" onclick=\"javascript:deleteRow("+_json+");\"><?=_SQL_DELETE_ROW?></span>";
+                    _actions += "<span class=\"_a_\" alt=\""+_json+"\" title=\""+_json+"\" onclick=\"javascript:deleteRow("+_json+");\"><?php echo _SQL_DELETE_ROW; ?></span>";
 
                 // ---
                 
@@ -525,13 +525,13 @@
         _html += '  <input type="hidden" name="_sql_[database][name]" id="_sql_[database][name]" value="'+_database_name+'" />';
 
         _html += '  <div class="sidebox">';
-        _html += '  <div class="boxhead"><h2><div class="edit_titre"><?=_SQL_CREATE_OR_UPDATE_TABLE?></div><div id="sql_tableName_loading"></div></h2></div>';
+        _html += '  <div class="boxhead"><h2><div class="edit_titre"><?php echo _SQL_CREATE_OR_UPDATE_TABLE; ?></div><div id="sql_tableName_loading"></div></h2></div>';
         _html += '      <div class="boxbody">';
-        _html += '          <?=_SQL_TABLE_NAME?> <input type="text" maxsize="32" id="sql_tableName_new" name="_sql_[table][name]" alt="<?=_SQL_CREATE_TABLE_INPUT?>" title="<?=_SQL_CREATE_TABLE_INPUT?>" />';
+        _html += '          <?php echo _SQL_TABLE_NAME; ?> <input type="text" maxsize="32" id="sql_tableName_new" name="_sql_[table][name]" alt="<?php echo _SQL_CREATE_TABLE_INPUT; ?>" title="<?php echo _SQL_CREATE_TABLE_INPUT; ?>" />';
         _html += '          <ul id="sql_tableColumns"></ul>';
         _html += '          <p>';
-        _html += '              <span class="_a_ _button_" onclick="$(\'#sql_tableColumns\').append(_addColumn(\'\',\'\',\'\',\'\',\'\',\'\',\'\',\'\'));"><?=_SQL_ADD_COLUMN?></span>';
-        _html += '              <button class="_a_" type="submit" ><?=_SQL_CREATE_TABLE_SUBMIT?></button>';
+        _html += '              <span class="_a_ _button_" onclick="$(\'#sql_tableColumns\').append(_addColumn(\'\',\'\',\'\',\'\',\'\',\'\',\'\',\'\'));"><?php echo _SQL_ADD_COLUMN; ?></span>';
+        _html += '              <button class="_a_" type="submit" ><?php echo _SQL_CREATE_TABLE_SUBMIT; ?></button>';
         _html += '          </p>';
         _html += '      </div>';
         _html += '      <div class="boxfooter"><h2></h2></div>';
@@ -696,9 +696,9 @@
         /* --- ---*/
     
         newColumn  = "<li class=\"_li_\">";
-        newColumn += "<button type=\"button\" class=\"_a_ _delete_\"><?=_SQL_DELETE_COLUMN?> </button>";
+        newColumn += "<button type=\"button\" class=\"_a_ _delete_\"><?php echo _SQL_DELETE_COLUMN; ?> </button>";
         newColumn += "<span class=\"_a_ _drag_\"> [drag] </span>";
-        newColumn += "<?=_SQL_COLUMN_NAME?> <input type=\"text\" size=\"8\" maxsize=\"32\" name=\"_sql_[table][column][name][]\" alt=\""+name+"\" title=\""+name+"\" value=\""+name+"\" />";
+        newColumn += "<?php echo _SQL_COLUMN_NAME; ?> <input type=\"text\" size=\"8\" maxsize=\"32\" name=\"_sql_[table][column][name][]\" alt=\""+name+"\" title=\""+name+"\" value=\""+name+"\" />";
         newColumn += selectType ;
         newColumn += "<div class=\""+_key_class+"\">"+_key+"</div>";
         newColumn += "<span class=\"sql_columnParams\">"+_params+"</span>";
@@ -745,7 +745,7 @@
         var _out = "";
         
         _out += "<input type = \"hidden\" name = \"_sql_[table][column][enum][]\" value = \"\" />";
-        _out += "<?=_SQL_ENUMERATIONS?> <input type = \"text\" name = \"_sql_[table][column][enum_new][]\" value = \"\" />";
+        _out += "<?php echo _SQL_ENUMERATIONS; ?> <input type = \"text\" name = \"_sql_[table][column][enum_new][]\" value = \"\" />";
         _out += "<input type=\"hidden\" name=\"_sql_[table][column][enum_old][]\" value=\""+_enumerations+"\" />";
         
         return _out;
@@ -773,7 +773,7 @@
     function _selectLength(_length){
 
         var _selectDefinition = {
-            "<?=_SQL_COLUMN_LENGTH?>": {
+            "<?php echo _SQL_COLUMN_LENGTH; ?>": {
                 "1"     : "1",
                 "2"     : "2",
                 "3"     : "3",
@@ -823,7 +823,7 @@
             
             if ( isChecked == 1 ) { _checked = " checked=\"checked\""; }
             
-            _autoIncrement += "<?=_SQL_AUTO_INCREMENT?> <input type=\"radio\" name=\"_sql_[table][column][auto_increment][]\" "+_checked+"/>";
+            _autoIncrement += "<?php echo _SQL_AUTO_INCREMENT; ?> <input type=\"radio\" name=\"_sql_[table][column][auto_increment][]\" "+_checked+"/>";
         }
 
         else
@@ -844,7 +844,7 @@
 
             if ( isChecked == 1 ) { _checked = " checked=\"checked\""; }
             
-            _unsigned += "<?=_SQL_UNSIGNED?> <input type=\"checkbox\" name=\"_sql_[table][column][unsigned][]\" value=\"1\" "+_checked+" />";
+            _unsigned += "<?php echo _SQL_UNSIGNED; ?> <input type=\"checkbox\" name=\"_sql_[table][column][unsigned][]\" value=\"1\" "+_checked+" />";
         }
 
         else

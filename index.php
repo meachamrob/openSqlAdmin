@@ -54,15 +54,15 @@
         <div id="col-left">
 
             <div class="sidebox">
-                <div class="boxhead"><h2><div class="show_titre"><?=_SQL_DATABASES_NAMES?></div><div id="sql_databaseName_loading"></div></h2></div>
+                <div class="boxhead"><h2><div class="show_titre"><?php echo _SQL_DATABASES_NAMES; ?></div><div id="sql_databaseName_loading"></div></h2></div>
                 <div class="boxbody">
                     <p>
                         <div class="row">
-                            <?=_SQL_CREATE_DATABASE?> <input type="text" maxsize="32" id="sql_databaseName_new" name="_sql_[database][name]" />
+                            <?php echo _SQL_CREATE_DATABASE; ?> <input type="text" maxsize="32" id="sql_databaseName_new" name="_sql_[database][name]" />
                         </div>
                     </p>
                     <dl class="dropdown">
-                        <dt><a href="#"><span><?=_SQL_SELECT_DATABASE?></span></a></dt>
+                        <dt><a href="#"><span><?php echo _SQL_SELECT_DATABASE; ?></span></a></dt>
                         <dd>
                             <ul id="sql_databasesNames"></ul>
                         </dd>
