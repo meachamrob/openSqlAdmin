@@ -5,7 +5,7 @@
 *{ cursor:default; }
 
 body {
-    background:url("<?=$PREFIX_URL_CSS?>fedora/background.jpg") repeat-x top center fixed #618fc0;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>fedora/background.jpg") repeat-x top center fixed #618fc0;
 }
 .count{
     color:white;

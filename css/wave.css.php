@@ -5,7 +5,7 @@
 *{ cursor:default; }
 
 body {
-    background:url("<?=$PREFIX_URL_CSS?>wave/background.png") repeat-x top center #d8dce0;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>wave/background.png") repeat-x top center #d8dce0;
 }
 
 a { cursor:pointer; color:#4580C2; }
@@ -123,7 +123,7 @@ a:hover{ color:#4580C2; background:#eee; }
 #sql_table{ padding:0px; margin:0px;}
 
 .trhead{
-    background:url("<?=$PREFIX_URL_CSS?>wave/column_title.png") repeat-x top center #d8dce0;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>wave/column_title.png") repeat-x top center #d8dce0;
 }
 .trhead td{
     border-top:1px solid #ccc;
@@ -166,7 +166,7 @@ a img{
 
 .SQL_titre{
     color:#777;
-    background:url("<?=$PREFIX_URL_CSS?>wave/arrow1.png") no-repeat 10px 55%;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>wave/arrow1.png") no-repeat 10px 55%;
     text-transform:uppercase;
 }
 
@@ -174,7 +174,7 @@ a img{
 #sql_back_first h3 {
     cursor:pointer;
     opacity:0.7;
-    background-image: url('<?=$PREFIX_URL_CSS?>wave/start.png');
+    background-image: url('<?php echo $PREFIX_URL_CSS; ?>wave/start.png');
     background-repeat: no-repeat;
     background-position: left;
     width:32px; height:32px;
@@ -187,7 +187,7 @@ a img{
     opacity:0.7;
     width:32px;
     height:32px;
-    background:url("<?=$PREFIX_URL_CSS?>wave/arrow0.png") no-repeat scroll 0px 0px;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>wave/arrow0.png") no-repeat scroll 0px 0px;
 }
 
 #sql_next h3:hover{
@@ -199,7 +199,7 @@ a img{
     opacity:0.7;
     width:32px;
     height:32px;
-    background:url("<?=$PREFIX_URL_CSS?>wave/arrow2.png") no-repeat scroll 0px 0px;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>wave/arrow2.png") no-repeat scroll 0px 0px;
 }
 
 #sql_back h3:hover{ opacity:1.0; }
@@ -209,7 +209,7 @@ a img{
     opacity:0.7;
     width:32px;
     height:32px;
-    background:url("<?=$PREFIX_URL_CSS?>wave/refresh.png") no-repeat scroll 0px 0px;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>wave/refresh.png") no-repeat scroll 0px 0px;
 }
 
 #sql_actualise h3:hover{ opacity:1.0; }
@@ -217,7 +217,7 @@ a img{
 #sql_close h3 {
     cursor:pointer;
     opacity:0.7;
-    background-image: url('<?=$PREFIX_URL_CSS?>wave/close.png');
+    background-image: url('<?php echo $PREFIX_URL_CSS; ?>wave/close.png');
     width:32px; height:32px;
 }
 #sql_close h3:hover { opacity:1.0; }
@@ -226,7 +226,7 @@ a img{
     cursor:pointer;
     margin-left:0px;
     opacity:0.7;
-    background-image: url('<?=$PREFIX_URL_CSS?>wave/delete.png');
+    background-image: url('<?php echo $PREFIX_URL_CSS; ?>wave/delete.png');
     background-repeat: no-repeat;
     background-position: left;
     width:32px;
@@ -237,12 +237,12 @@ a img{
 .sql_delete{
     cursor:pointer;
     opacity:0.7;
-    background:transparent url('<?=$PREFIX_URL_CSS?>wave/delete_mini.png') no-repeat;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>wave/delete_mini.png') no-repeat;
 }
 
 .sql_delete:hover{
     opacity:1.0;
-    background:transparent url('<?=$PREFIX_URL_CSS?>wave/delete_mini.png') no-repeat;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>wave/delete_mini.png') no-repeat;
 }
 
 ul {list-style:none;}
@@ -268,7 +268,7 @@ ul {list-style:none;}
     margin-top:5px;
     padding-top:45px;
     color:#333;
-    background: url(<?=$PREFIX_URL_CSS?>defaut/logo_rounded.png) no-repeat center 5px;
+    background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/logo_rounded.png) no-repeat center 5px;
 }
 
 .editRecord{
@@ -281,7 +281,7 @@ ul {list-style:none;}
 }
 
 .btn-slide{
-    background:url('<?=$PREFIX_URL_CSS?>wave/arrows.png') no-repeat left 5px;
+    background:url('<?php echo $PREFIX_URL_CSS; ?>wave/arrows.png') no-repeat left 5px;
 }
 
 .active {
@@ -295,7 +295,7 @@ ul {list-style:none;}
     padding-left:28px;
     padding-right:1px;
     padding-top:0px;
-    background:transparent url('<?=$PREFIX_URL_CSS?>wave/theme.png') no-repeat 0px -2px;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>wave/theme.png') no-repeat 0px -2px;
 }
 
 /* ============= */
@@ -303,7 +303,7 @@ ul {list-style:none;}
 /* ============= */
 
 .extensions_titre{
-    background: url(<?=$PREFIX_URL_CSS?>wave/extensions.png) no-repeat;
+    background: url(<?php echo $PREFIX_URL_CSS; ?>wave/extensions.png) no-repeat;
     height:40px;
     padding-top:15px;
     padding-left:50px;
@@ -318,6 +318,6 @@ ul {list-style:none;}
 }
 .LIBELLES_titre{
     color:#777;
-    background:url("<?=$PREFIX_URL_CSS?>wave/arrow1.png") no-repeat 10px 55%;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>wave/arrow1.png") no-repeat 10px 55%;
     text-transform:uppercase;
 }

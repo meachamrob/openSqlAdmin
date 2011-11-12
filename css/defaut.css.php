@@ -5,7 +5,7 @@
 body {
     margin: 0px;
     padding: 0px;
-    background:url("<?=$PREFIX_URL_CSS?>defaut/background.jpg") no-repeat top center fixed #494949;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>defaut/background.jpg") no-repeat top center fixed #494949;
     /*background-attachment:fixed;*/
     /* font:0.75em Verdana,Arial,Clean,Helvetica,sans-serif; */
     font:11px Trebuchet MS, Tahoma,Arial CE, Helvetica;
@@ -40,7 +40,7 @@ a img {
 }
 
 a.warning{
-    background:url(<?=$PREFIX_URL_CSS?>defaut/warning.png) no-repeat top right;
+    background:url(<?php echo $PREFIX_URL_CSS; ?>defaut/warning.png) no-repeat top right;
     padding-right:14px; 
 }
 
@@ -109,7 +109,7 @@ h5{margin:0px;font-size:10px;font-weight:normal;}
 .admin_version{color:#ffffff; font-weight:normal;}
 .version{color:#dddddd; font-weight:normal; padding-top:12px;}
 .titre_site{
-    background:transparent url('<?=$PREFIX_URL_CSS?>defaut/logo_maron.gif') no-repeat 0px 0px;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>defaut/logo_maron.gif') no-repeat 0px 0px;
     height:40px;
     padding-left:45px;
 }
@@ -139,7 +139,7 @@ table {
 }
 .su_titre_mini{
 	float:left;
-	background:transparent url('<?=$PREFIX_URL_CSS?>defaut/lock_mini.gif') no-repeat 0px 0px;
+	background:transparent url('<?php echo $PREFIX_URL_CSS; ?>defaut/lock_mini.gif') no-repeat 0px 0px;
 	padding-left:19px;
 	padding-right:3px;
 	height:16px;
@@ -179,7 +179,7 @@ td.titre_colonne_non_visible {
 	font-weight:			bold;	
 }
 .SQL_titre {
-    background:transparent url('<?=$PREFIX_URL_CSS?>defaut/folder-remote.png') no-repeat 0px 3px;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>defaut/folder-remote.png') no-repeat 0px 3px;
     height:18px;
     padding-left:28px;
     padding-top:8px;
@@ -301,7 +301,7 @@ textarea.edit{
 }
 
 .menu_active{
-    background: url(<?=$PREFIX_URL_CSS?>defaut/arrow0.gif) no-repeat 0px 40%;
+    background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/arrow0.gif) no-repeat 0px 40%;
     padding-left:18px;
 }
 .menu_active:hover{
@@ -315,7 +315,7 @@ textarea.edit{
 .news_inactive{}
 
 .news_active{
-    background: url(<?=$PREFIX_URL_CSS?>pics/arrow0.gif) no-repeat 2px 40%;
+    background: url(<?php echo $PREFIX_URL_CSS; ?>pics/arrow0.gif) no-repeat 2px 40%;
     padding-left:18px;
 }
 
@@ -345,56 +345,56 @@ textarea.edit{
 /* --- Boites aves les coins arrondis : TITRES ---\*/
 
 .ib_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/logo_rounded.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/logo_rounded.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
 }
 .main_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/main.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/main.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
 }
 .upload_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/upload.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/upload.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
 }
 .extensions_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/extensions.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/extensions.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
 }
 .su_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/su.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/su.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
 }
 .show_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/show_table.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/show_table.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
 }
 .edit_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/edit.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/edit.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
 }
 
 .news_liste_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/news_liste.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/news_liste.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
 }
 .news_edit_titre{
-	background: url(<?=$PREFIX_URL_CSS?>defaut/news_edit.gif) no-repeat;
+	background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/news_edit.gif) no-repeat;
 	height:40px;
 	padding-top:15px;
 	padding-left:50px;
@@ -425,11 +425,11 @@ textarea.edit{
     margin-top:5px;
     padding-top:45px;
     color:#000;
-    background: url(<?=$PREFIX_URL_CSS?>defaut/logo_rounded.gif) no-repeat top center;
+    background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/logo_rounded.gif) no-repeat top center;
 }
 
 #admin_login { 
-    background: url(<?=$PREFIX_URL_CSS?>defaut/user.gif) #FFF no-repeat;
+    background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/user.gif) #FFF no-repeat;
     height:53px;
     padding-left:55px;
     border:1px solid #a29587;
@@ -491,17 +491,17 @@ textarea.edit{
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    background:url('<?=$PREFIX_URL_CSS?>defaut/floppy.png') no-repeat 0px 0px;
+    background:url('<?php echo $PREFIX_URL_CSS; ?>defaut/floppy.png') no-repeat 0px 0px;
 }
 
 .sql_toolbar_edit input:hover{
     cursor:pointer;
-    background:url('<?=$PREFIX_URL_CSS?>defaut/floppy-hover.png') #ddd no-repeat 0px 0px;
+    background:url('<?php echo $PREFIX_URL_CSS; ?>defaut/floppy-hover.png') #ddd no-repeat 0px 0px;
 }
 
 .sql_checkbox0{}
 .sql_checkbox0 h3 {
-    background-image: url('<?=$PREFIX_URL_CSS?>defaut/checkbox0.gif');
+    background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/checkbox0.gif');
     background-repeat: no-repeat;
     background-position: left;
     width:13px; height:16px;
@@ -511,7 +511,7 @@ textarea.edit{
 
 .sql_checkbox1{}
 .sql_checkbox1 h3 {
-    background-image: url('<?=$PREFIX_URL_CSS?>defaut/checkbox1.gif');
+    background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/checkbox1.gif');
     background-repeat: no-repeat;
     background-position: left;
     width:13px; height:16px;
@@ -521,7 +521,7 @@ textarea.edit{
 
 #sql_empty_table{}
 #sql_empty_table h3 {
-    background-image: url('<?=$PREFIX_URL_CSS?>defaut/sql_empty_table.gif');
+    background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/sql_empty_table.gif');
     background-repeat: no-repeat;
     background-position: left;
     width:37px; height:26px;
@@ -530,7 +530,7 @@ textarea.edit{
 
 #sql_back_first{}
 #sql_back_first h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/sql_back_first.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/sql_back_first.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -539,7 +539,7 @@ textarea.edit{
 
 #sql_back{}
 #sql_back h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/sql_back.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/sql_back.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -548,7 +548,7 @@ textarea.edit{
 
 #sql_next{}
 #sql_next h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/sql_next.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/sql_next.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -557,7 +557,7 @@ textarea.edit{
 
 #sql_actualise{}
 #sql_actualise h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/sql_actualise.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/sql_actualise.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -566,7 +566,7 @@ textarea.edit{
 
 #sql_close{}
 #sql_close h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/sql_close.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/sql_close.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -582,11 +582,11 @@ textarea.edit{
     display:block;
     width:16px;
     height:16px;
-    background:transparent url('<?=$PREFIX_URL_CSS?>defaut/delete_mini.gif') no-repeat;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>defaut/delete_mini.gif') no-repeat;
 }
 
 .sql_delete:hover{
-    background:transparent url('<?=$PREFIX_URL_CSS?>defaut/delete_mini.gif') no-repeat;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>defaut/delete_mini.gif') no-repeat;
 }
 
 .sql_alter_numeric{
@@ -616,7 +616,7 @@ textarea.edit{
 
 #news_back0{}
 #news_back0 h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/news_stop_left.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/news_stop_left.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -625,7 +625,7 @@ textarea.edit{
 
 #news_back1{}
 #news_back1 h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/news_back.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/news_back.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -634,7 +634,7 @@ textarea.edit{
 
 #news_next0{}
 #news_next0 h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/news_stop_right.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/news_stop_right.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -643,7 +643,7 @@ textarea.edit{
 
 #news_next1{}
 #news_next1 h3 {
-	background-image: url('<?=$PREFIX_URL_CSS?>defaut/news_next.gif');
+	background-image: url('<?php echo $PREFIX_URL_CSS; ?>defaut/news_next.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	width:26px; height:26px;
@@ -816,20 +816,20 @@ padding:2px 22px 2px 0;
 }
 .postFilesColumnTitleBackground{
 	padding-top:6px;
-	background:#dddddd url('<?=$PREFIX_URL_CSS?>defaut/header.gif') repeat-x 0px 0px;
+	background:#dddddd url('<?php echo $PREFIX_URL_CSS; ?>defaut/header.gif') repeat-x 0px 0px;
 }
 
 .linkDisconnect{
     height:19px;
     padding-left:28px;
     padding-top:5px;
-    background:transparent url('<?=$PREFIX_URL_CSS?>defaut/stop.png') no-repeat 0px 0px;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>defaut/stop.png') no-repeat 0px 0px;
 }
 
 .disconnect{
     cursor:pointer;
     display:block;
-    background:url('<?=$PREFIX_URL_CSS?>defaut/stop.png') #eeeeee no-repeat 0px 0px;
+    background:url('<?php echo $PREFIX_URL_CSS; ?>defaut/stop.png') #eeeeee no-repeat 0px 0px;
     min-height:26px;
     width:100%;
     text-align:center;
@@ -838,7 +838,7 @@ padding:2px 22px 2px 0;
     -webkit-border-radius:6px;
     border-radius:6px;
 }
-.disconnect:hover{ background:url('<?=$PREFIX_URL_CSS?>defaut/stop.png') #dddddd no-repeat 0px 0px; }
+.disconnect:hover{ background:url('<?php echo $PREFIX_URL_CSS; ?>defaut/stop.png') #dddddd no-repeat 0px 0px; }
 
 .selectThemePageConnexion{
     margin-left:20px;
@@ -848,7 +848,7 @@ padding:2px 22px 2px 0;
     padding-left:28px;
     padding-right:1px;
     padding-top:0px;
-    background:transparent url('<?=$PREFIX_URL_CSS?>defaut/theme.png') no-repeat 0px -2px;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>defaut/theme.png') no-repeat 0px -2px;
 }
 
 #fixedbar {
@@ -909,7 +909,7 @@ padding:2px 22px 2px 0;
 }
 
 .btn-slide {
-    background: url(<?=$PREFIX_URL_CSS?>defaut/white-arrow.gif) no-repeat right -56px;
+    background: url(<?php echo $PREFIX_URL_CSS; ?>defaut/white-arrow.gif) no-repeat right -56px;
     text-align: center;
     width: 154px;
     height: 13px;
@@ -933,7 +933,7 @@ padding:2px 22px 2px 0;
 /* ================ */
 
 .LIBELLES_titre {
-    background:transparent url('<?=$PREFIX_URL_CSS?>defaut/locale.png') no-repeat 0px 3px;
+    background:transparent url('<?php echo $PREFIX_URL_CSS; ?>defaut/locale.png') no-repeat 0px 3px;
     height:18px;
     padding-left:28px;
     padding-top:8px;
@@ -970,7 +970,7 @@ padding:2px 22px 2px 0;
 }
 
 #libelles_toolbar li a {
-    background:url("<?=$PREFIX_URL_CSS?>defaut/menu.gif") no-repeat scroll 0 0 transparent;
+    background:url("<?php echo $PREFIX_URL_CSS; ?>defaut/menu.gif") no-repeat scroll 0 0 transparent;
     color:#382E1F;
     display:block;
     float:left;
