@@ -389,7 +389,7 @@ class Database {
                 // ---
             }
             
-        # (5) Si "TABLE" et "__TABLE__" existent, on supprime "__TABLE__"
+        # (5) If "TABLE" and "__TABLE__" exists, we delete "__TABLE__"
         
             $query = 'DROP TABLE IF EXISTS `' . $this->database_name . '`.`__' . $table_name . '__`';
             
