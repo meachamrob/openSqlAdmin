@@ -592,9 +592,9 @@
         $('#sql_tableColumns').html(_newColumns);
     }
 
-    /* ============================== */
-    /* --- Html code for 1 column --- */
-    /* ============================== */
+    /* ================================ */
+    /* --- Html code for one column --- */
+    /* ================================ */
 
     function _addColumn(name,type,_key,_default,_length,_enumerations,_auto_increment,unsigned)
     {
