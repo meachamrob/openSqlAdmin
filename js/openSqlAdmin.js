@@ -34,7 +34,7 @@
         DatabaseModel.setDatabases();                                           // Custom event "setDatabasesOK"
     });
     
-    /* ===================== */
+    /* ====================== */
     /* --- Custom Events --- */
     /* ===================== */
 
